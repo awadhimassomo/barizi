@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* General Styles */
+body {
+    @apply bg-gray-100 text-gray-900;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    @apply w-64 bg-white shadow-lg p-6 fixed h-full;
+}
+
+.sidebar h3 {
+    @apply text-2xl font-bold text-gray-900 mb-6;
+}
+
+.sidebar ul {
+    @apply space-y-4;
+}
+
+.sidebar li a {
+    @apply block text-gray-700 hover:text-orange-500 transition duration-200;
+}
+
+.sidebar li button {
+    @apply block text-gray-700 hover:text-orange-500 transition duration-200;
+}
+
+/* Dashboard Layout */
+.container {
+    @apply mx-auto p-6 ml-64; /* Adjusts to leave space for the sidebar */
+}
+
+/* Stats Cards */
+.stat-card {
+    @apply bg-white p-6 rounded-lg shadow-md text-center;
+}
+
+/* Charts */
+.chart-container {
+    @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+/* Tables */
+.table-container {
+    @apply bg-white p-6 rounded-lg shadow-md overflow-x-auto;
+}
+
+.table {
+    @apply w-full border-collapse text-gray-800;
+}
+
+.table th, .table td {
+    @apply p-4 border-b;
+}
+
+.table th {
+    @apply bg-gray-200 font-semibold;
+}
+
+/* Dark Mode */
+.dark-mode {
+    @apply bg-gray-900 text-white;
+}
+
+.dark-mode .sidebar {
+    @apply bg-gray-800 text-gray-200;
+}
+
+.dark-mode .stat-card,
+.dark-mode .chart-container,
+.dark-mode .table-container {
+    @apply bg-gray-800 text-white;
+}
+
+/* African Theme Background */
+.african-theme {
+    background-image: url('/static/images/african-pattern.jpg'); 
+    background-size: cover;
+    background-position: center;
+}

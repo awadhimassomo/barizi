@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barizi Dashboard</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#F97316',
+                        secondary: '#333333',
+                        sidebarBg: '#1E293B',
+                        sidebarText: '#E2E8F0',
+                        sidebarHover: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-200 text-gray-900">
+    {% if request.path != "/auth/login/" and request.path != "/auth/registerView/" %}
+    <!-- Sidebar -->
+    <div class="w-72 bg-sidebarBg p-6 shadow-lg fixed h-full flex flex-col justify-between text-sidebarText">
+        <div>
+            <!-- Profile Section -->
+            <div class="flex flex-col items-center mb-2">
+                <img src="{% static 'images/user-avatar.png' %}" alt="User Avatar" class="w-16 h-16 rounded-full border-2 border-gray-500">
+                <span class="mt-1 text-lg font-semibold text-center">{{ user.first_name }} {{ user.last_name }}</span>
+                <div class="mt-1">
+                    <a href="{% url 'profile' %}" class="text-sm text-sidebarText hover:text-sidebarHover">View Profile</a>
+                </div>
+            </div>
+
+            <!-- Event Planner Links in Separate Div -->
+            {% if user.role == 'planner' or user.role == 'admin' %}
+            <div class="mt-12">
+               
+                <ul class="space-y-3 text-left">
+                    <li>
+                        <a href="{% url 'event-dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                            <i class="fas fa-calendar"></i> <span>Event Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'create-event' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                            <i class="fas fa-plus"></i> <span>Create Event</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'attendee-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                            <i class="fas fa-users"></i> <span>Attendees</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <ul class="space-y-4 mt-6">
+                <!-- Operator Specific Links -->
+                {% if user.role == 'operator' or user.role == 'admin' %}
+                <li>
+                    <a href="{% url 'dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-chart-bar"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'tour-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-map"></i> <span>Tours</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-hotel"></i> <span>Costing</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'operator_booking_list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-calendar-alt"></i> <span>Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-hotel"></i> <span>Vendors</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Admin Only Link -->
+                {% if user.role == 'admin' %}
+                <li>
+                    <a href="{% url 'user-management' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <i class="fas fa-user-shield"></i> <span>User Management</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Sidebar Footer with Settings and Logout at Bottom -->
+        <div class="space-y-4">
+            <a href="{% url 'settings' %}" class="flex items-center space-x-3 hover:text-sidebarHover w-full text-left">
+                <i class="fas fa-cog"></i> <span>Settings</span>
+            </a>
+            <button id="toggleDarkMode" class="flex items-center space-x-3 hover:text-sidebarHover w-full text-left">
+                <i class="fas fa-moon"></i> <span>Night Mode</span>
+            </button>
+            <a href="{% url 'logout' %}" class="flex items-center space-x-3 text-red-400 hover:text-red-600 w-full text-left">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="{% if request.path != '/auth/login/' and request.path != '/auth/register/' %}ml-72{% endif %} p-12 transition-all">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- JavaScript for Dark Mode -->
+    <script>
+        document.getElementById('toggleDarkMode')?.addEventListener('click', function() {
+            document.body.classList.toggle('bg-gray-900');
+            document.body.classList.toggle('text-white');
+        });
+    </script>
+</body>
+</html>

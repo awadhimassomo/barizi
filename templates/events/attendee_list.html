@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 text-gray-800 p-6">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold mb-6">Attendee List</h2>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+            <table class="w-full border-collapse border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-2 border">Name</th>
+                        <th class="p-2 border">Email</th>
+                        <th class="p-2 border">Phone</th>
+                        <th class="p-2 border">Event</th>
+                        <th class="p-2 border">Ticket Type</th>
+                        <th class="p-2 border">Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendee in attendees %}
+                    <tr class="text-center">
+                        <td class="p-2 border">{{ attendee.name }}</td>
+                        <td class="p-2 border">{{ attendee.email }}</td>
+                        <td class="p-2 border">{{ attendee.phone_number }}</td>
+                        <td class="p-2 border">{{ attendee.event.title }}</td>
+                        <td class="p-2 border">{{ attendee.ticket_type }}</td>
+                        <td class="p-2 border">{{ attendee.registration_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="p-2 text-center text-gray-500">No attendees found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

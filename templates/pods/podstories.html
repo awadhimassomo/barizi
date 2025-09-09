@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Upload Podcast or Article</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function toggleForm() {
+            let selection = document.getElementById("contentType").value;
+            document.getElementById("podcastForm").classList.toggle("hidden", selection !== "podcast");
+            document.getElementById("articleForm").classList.toggle("hidden", selection !== "article");
+        }
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-900 p-10">
+    
+    <!-- Dashboard Header with Profile and Content Selection -->
+    <header class="flex justify-between items-center bg-white p-6 shadow-md rounded-lg mb-8">
+        <h1 class="text-4xl font-bold">Dashboard</h1>
+        <div class="flex items-center space-x-4">
+            <img src="/static/images/profile-placeholder.jpg" alt="User Profile" class="w-12 h-12 rounded-full border">
+            <div>
+                <p class="font-semibold">John Doe</p>
+                <p class="text-sm text-gray-500">johndoe@example.com</p>
+            </div>
+        </div>
+        <select id="contentType" class="p-2 border rounded-md" onchange="toggleForm()">
+            <option value="">-- Select Content Type --</option>
+            <option value="podcast">Podcast</option>
+            <option value="article">Article</option>
+        </select>
+    </header>
+
+    <!-- Podcast Upload Form -->
+    <div id="podcastForm" class="hidden bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+        <h2 class="text-2xl font-bold mb-4">Upload Podcast</h2>
+        <form action="/upload_podcast/" method="POST" enctype="multipart/form-data">
+            <label class="block mb-2">Title:</label>
+            <input type="text" name="title" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Description:</label>
+            <textarea name="description" class="w-full p-2 border rounded-md" required></textarea>
+            
+            <label class="block mt-4 mb-2">Language:</label>
+            <select name="language" class="w-full p-2 border rounded-md" required>
+                <option value="English">English</option>
+                <option value="Swahili">Swahili</option>
+                <option value="French">French</option>
+                <option value="Arabic">Arabic</option>
+            </select>
+            
+            <label class="block mt-4 mb-2">Category:</label>
+            <select name="category" class="w-full p-2 border rounded-md" required>
+                <option value="Culture">Culture</option>
+                <option value="History">History</option>
+                <option value="Travel">Travel</option>
+                <option value="Education">Education</option>
+            </select>
+            
+            <label class="block mt-4 mb-2">Cover Image:</label>
+            <input type="file" name="image_file" class="w-full p-2 border rounded-md" accept="image/*">
+            
+            <label class="block mt-4 mb-2">Audio File:</label>
+            <input type="file" name="audio_file" class="w-full p-2 border rounded-md" accept="audio/*" required>
+            
+            <label class="block mt-4 mb-2">NFC Tag ID:</label>
+            <input type="text" name="nfc_tag" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Publish Date:</label>
+            <input type="date" name="publish_date" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Tags (comma-separated):</label>
+            <input type="text" name="tags" class="w-full p-2 border rounded-md">
+            
+            <button type="submit" class="bg-blue-500 text-white px-6 py-2 mt-4 rounded-md hover:bg-blue-700">Upload Podcast</button>
+        </form>
+    </div>
+    
+    <!-- Article Upload Form -->
+    <div id="articleForm" class="hidden bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+        <h2 class="text-2xl font-bold mb-4">Create Article</h2>
+        <form action="/upload_article/" method="POST" enctype="multipart/form-data">
+            <label class="block mb-2">Title:</label>
+            <input type="text" name="title" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Content:</label>
+            <textarea name="content" class="w-full p-2 border rounded-md" rows="6" required></textarea>
+            
+            <label class="block mt-4 mb-2">Language:</label>
+            <select name="language" class="w-full p-2 border rounded-md" required>
+                <option value="English">English</option>
+                <option value="Swahili">Swahili</option>
+                <option value="French">French</option>
+                <option value="Arabic">Arabic</option>
+            </select>
+            
+            <label class="block mt-4 mb-2">Category:</label>
+            <select name="category" class="w-full p-2 border rounded-md" required>
+                <option value="Culture">Culture</option>
+                <option value="History">History</option>
+                <option value="Travel">Travel</option>
+                <option value="Education">Education</option>
+            </select>
+            
+            <label class="block mt-4 mb-2">Cover Image:</label>
+            <input type="file" name="image_file" class="w-full p-2 border rounded-md" accept="image/*">
+            
+            <label class="block mt-4 mb-2">Author Name:</label>
+            <input type="text" name="author" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Publish Date:</label>
+            <input type="date" name="publish_date" class="w-full p-2 border rounded-md" required>
+            
+            <label class="block mt-4 mb-2">Tags (comma-separated):</label>
+            <input type="text" name="tags" class="w-full p-2 border rounded-md">
+            
+            <button type="submit" class="bg-green-500 text-white px-6 py-2 mt-4 rounded-md hover:bg-green-700">Create Article</button>
+        </form>
+    </div>
+</body>
+</html>

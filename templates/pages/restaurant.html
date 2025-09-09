@@ -1,0 +1,131 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Restaurants - Barizi{% endblock %}
+
+{% block header_image %}/static/images/restaurant-bg.jpg{% endblock %}
+
+{% block header_title %}Restaurants{% endblock %}
+
+{% block header_subtitle %}Discover the best dining spots in Arusha and beyond.{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-center">All Restaurants</h2>
+<p class="text-gray-600 text-center mt-1">Explore local flavors, popular spots, and hidden gems.</p>
+
+<!-- Search & Filter -->
+<div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+    <input type="text" id="searchInput" placeholder="Search by name or cuisine..." class="w-full md:w-1/3 border border-gray-300 rounded-lg p-2">
+    <select id="cuisineFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Cuisines</option>
+        <option value="Tanzanian">Tanzanian</option>
+        <option value="BBQ">BBQ</option>
+        <option value="Coffee">Coffee</option>
+        <option value="Snacks">Snacks</option>
+        <option value="Grill">Grill</option>
+        <option value="African">African</option>
+    </select>
+    <select id="ratingFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Ratings</option>
+        <option value="4.5">4.5 & Up</option>
+        <option value="4.0">4.0 & Up</option>
+        <option value="3.5">3.5 & Up</option>
+    </select>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+    <!-- Dynamic Content Will Be Loaded Here -->
+    <section id="restaurant-list" class="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchRestaurants();
+
+        // Event Listeners for Search & Filters
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('cuisineFilter').addEventListener('change', applyFilters);
+        document.getElementById('ratingFilter').addEventListener('change', applyFilters);
+    });
+
+    let allRestaurants = [];
+
+    function fetchRestaurants() {
+        // Simulating a database fetch - Replace with real API call
+        allRestaurants = [
+            {
+                name: 'Arusha Diner',
+                cuisine: 'Tanzanian, BBQ',
+                location: 'Arusha',
+                image: 'https://source.unsplash.com/random/300x200?restaurant',
+                rating: 4.5,
+                reviews: 120
+            },
+            {
+                name: 'Savannah Cafe',
+                cuisine: 'Coffee, Snacks',
+                location: 'Arusha',
+                image: 'https://source.unsplash.com/random/300x200?cafe',
+                rating: 4.0,
+                reviews: 95
+            },
+            {
+                name: 'Safari Bites',
+                cuisine: 'Grill, African',
+                location: 'Arusha',
+                image: 'https://source.unsplash.com/random/300x200?food',
+                rating: 3.8,
+                reviews: 85
+            }
+        ];
+
+        renderRestaurants(allRestaurants);
+    }
+
+    function renderRestaurants(restaurants) {
+        const restaurantList = document.getElementById('restaurant-list');
+        restaurantList.innerHTML = '';
+
+        if (restaurants.length === 0) {
+            restaurantList.innerHTML = '<p class="text-gray-500 col-span-3">No restaurants found.</p>';
+            return;
+        }
+
+        restaurants.forEach(restaurant => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-3xl shadow-lg overflow-hidden';
+
+            card.innerHTML = `
+                <img src="${restaurant.image}" alt="${restaurant.name}" class="w-full h-40 object-cover rounded-t-3xl">
+                <div class="p-4">
+                    <h3 class="font-bold text-xl text-blue-600">${restaurant.name}</h3>
+                    <p class="text-gray-600 mt-2">${restaurant.cuisine} - ${restaurant.location}</p>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-yellow-500">${'★'.repeat(Math.round(restaurant.rating))}${'☆'.repeat(5 - Math.round(restaurant.rating))}</span>
+                        <span class="text-gray-600 ml-2">(${restaurant.reviews} reviews)</span>
+                    </div>
+                </div>
+            `;
+
+            restaurantList.appendChild(card);
+        });
+    }
+
+    function applyFilters() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const cuisineFilter = document.getElementById('cuisineFilter').value;
+        const ratingFilter = parseFloat(document.getElementById('ratingFilter').value) || 0;
+
+        const filteredRestaurants = allRestaurants.filter(restaurant => {
+            const matchesSearch = restaurant.name.toLowerCase().includes(searchInput) || restaurant.cuisine.toLowerCase().includes(searchInput);
+            const matchesCuisine = cuisineFilter ? restaurant.cuisine.includes(cuisineFilter) : true;
+            const matchesRating = ratingFilter ? restaurant.rating >= ratingFilter : true;
+
+            return matchesSearch && matchesCuisine && matchesRating;
+        });
+
+        renderRestaurants(filteredRestaurants);
+    }
+</script>
+{% endblock %}

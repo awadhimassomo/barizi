@@ -1,0 +1,100 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Flights - Barizi{% endblock %}
+
+{% block header_image %}/static/images/flights-bg.jpg{% endblock %}
+
+{% block header_title %}Flights{% endblock %}
+
+{% block header_subtitle %}Find the best flight deals to your dream destinations.{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-center">All Flights</h2>
+<p class="text-gray-600 text-center mt-1">Book affordable and convenient flights today.</p>
+
+<!-- Search & Filter -->
+<div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+    <input type="text" id="searchInput" placeholder="Search by airline or destination..." class="w-full md:w-1/3 border border-gray-300 rounded-lg p-2">
+    <select id="destinationFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Destinations</option>
+        <option value="Dar es Salaam">Dar es Salaam</option>
+        <option value="Arusha">Arusha</option>
+        <option value="Zanzibar">Zanzibar</option>
+        <option value="Moshi">Moshi</option>
+    </select>
+    <select id="priceFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Prices</option>
+        <option value="500">Below $500</option>
+        <option value="1000">Below $1000</option>
+    </select>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+    <section id="flight-list" class="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchFlights();
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('destinationFilter').addEventListener('change', applyFilters);
+        document.getElementById('priceFilter').addEventListener('change', applyFilters);
+    });
+
+    let allFlights = [];
+
+    function fetchFlights() {
+        allFlights = [
+            { airline: 'Air Tanzania', destination: 'Dar es Salaam', price: 450, image: 'https://source.unsplash.com/random/300x200?airplane', rating: 4.5 },
+            { airline: 'Precision Air', destination: 'Zanzibar', price: 700, image: 'https://source.unsplash.com/random/300x200?plane', rating: 4.0 },
+            { airline: 'Fastjet', destination: 'Arusha', price: 380, image: 'https://source.unsplash.com/random/300x200?flight', rating: 4.2 }
+        ];
+        renderFlights(allFlights);
+    }
+
+    function renderFlights(flights) {
+        const flightList = document.getElementById('flight-list');
+        flightList.innerHTML = '';
+
+        if (flights.length === 0) {
+            flightList.innerHTML = '<p class="text-gray-500 col-span-3">No flights found.</p>';
+            return;
+        }
+
+        flights.forEach(flight => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-3xl shadow-lg overflow-hidden';
+
+            card.innerHTML = `
+                <img src="${flight.image}" alt="${flight.airline}" class="w-full h-40 object-cover rounded-t-3xl">
+                <div class="p-4">
+                    <h3 class="font-bold text-xl text-blue-600">${flight.airline}</h3>
+                    <p class="text-gray-600 mt-2">${flight.destination} - $${flight.price}</p>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-yellow-500">${'★'.repeat(Math.round(flight.rating))}${'☆'.repeat(5 - Math.round(flight.rating))}</span>
+                    </div>
+                </div>
+            `;
+            flightList.appendChild(card);
+        });
+    }
+
+    function applyFilters() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const destinationFilter = document.getElementById('destinationFilter').value;
+        const priceFilter = parseInt(document.getElementById('priceFilter').value) || Infinity;
+
+        const filteredFlights = allFlights.filter(flight => {
+            const matchesSearch = flight.airline.toLowerCase().includes(searchInput) || flight.destination.toLowerCase().includes(searchInput);
+            const matchesDestination = destinationFilter ? flight.destination === destinationFilter : true;
+            const matchesPrice = flight.price <= priceFilter;
+
+            return matchesSearch && matchesDestination && matchesPrice;
+        });
+
+        renderFlights(filteredFlights);
+    }
+</script>
+{% endblock %}

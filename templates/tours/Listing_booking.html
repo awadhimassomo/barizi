@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 text-gray-900 p-6">
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold mb-6">My Bookings</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-2 px-4 border-b">ID</th>
+                        <th class="py-2 px-4 border-b">Customer</th>
+                        <th class="py-2 px-4 border-b">Vendor</th>
+                        <th class="py-2 px-4 border-b">Tour</th>
+                        <th class="py-2 px-4 border-b">People</th>
+                        <th class="py-2 px-4 border-b">Status</th>
+                        <th class="py-2 px-4 border-b">Total Price</th>
+                        <th class="py-2 px-4 border-b">Installment Paid</th>
+                        <th class="py-2 px-4 border-b">Created At</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-2 px-4 border-b">1</td>
+                        <td class="py-2 px-4 border-b">John Doe</td>
+                        <td class="py-2 px-4 border-b">Safari Adventures</td>
+                        <td class="py-2 px-4 border-b">Serengeti Tour</td>
+                        <td class="py-2 px-4 border-b">4</td>
+                        <td class="py-2 px-4 border-b capitalize">confirmed</td>
+                        <td class="py-2 px-4 border-b">$1200.00</td>
+                        <td class="py-2 px-4 border-b">$600.00</td>
+                        <td class="py-2 px-4 border-b">2024-03-15 14:30</td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="#" class="text-blue-500 hover:underline">View</a>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-2 px-4 border-b">2</td>
+                        <td class="py-2 px-4 border-b">Jane Smith</td>
+                        <td class="py-2 px-4 border-b">Adventure Co.</td>
+                        <td class="py-2 px-4 border-b">Kilimanjaro Hike</td>
+                        <td class="py-2 px-4 border-b">2</td>
+                        <td class="py-2 px-4 border-b capitalize">pending</td>
+                        <td class="py-2 px-4 border-b">$2000.00</td>
+                        <td class="py-2 px-4 border-b">$500.00</td>
+                        <td class="py-2 px-4 border-b">2024-03-16 09:15</td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="#" class="text-blue-500 hover:underline">View</a>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-2 px-4 border-b">3</td>
+                        <td class="py-2 px-4 border-b">Alice Johnson</td>
+                        <td class="py-2 px-4 border-b">Tanzania Tours</td>
+                        <td class="py-2 px-4 border-b">Zanzibar Getaway</td>
+                        <td class="py-2 px-4 border-b">3</td>
+                        <td class="py-2 px-4 border-b capitalize">cancelled</td>
+                        <td class="py-2 px-4 border-b">$1500.00</td>
+                        <td class="py-2 px-4 border-b">$0.00</td>
+                        <td class="py-2 px-4 border-b">2024-03-17 12:45</td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="#" class="text-blue-500 hover:underline">View</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

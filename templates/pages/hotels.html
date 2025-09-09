@@ -1,0 +1,100 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Hotels - Barizi{% endblock %}
+
+{% block header_image %}/static/images/hotel-bg.jpg{% endblock %}
+
+{% block header_title %}Hotels{% endblock %}
+
+{% block header_subtitle %}Find top-rated hotels for your next stay.{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-center">All Hotels</h2>
+<p class="text-gray-600 text-center mt-1">Stay in comfort at the best hotels in Tanzania.</p>
+
+<!-- Search & Filter -->
+<div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+    <input type="text" id="searchInput" placeholder="Search by hotel or city..." class="w-full md:w-1/3 border border-gray-300 rounded-lg p-2">
+    <select id="cityFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Cities</option>
+        <option value="Dar es Salaam">Dar es Salaam</option>
+        <option value="Arusha">Arusha</option>
+        <option value="Zanzibar">Zanzibar</option>
+    </select>
+    <select id="ratingFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Ratings</option>
+        <option value="5">5 Star</option>
+        <option value="4">4 Star & Up</option>
+        <option value="3">3 Star & Up</option>
+    </select>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+    <section id="hotel-list" class="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchHotels();
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('cityFilter').addEventListener('change', applyFilters);
+        document.getElementById('ratingFilter').addEventListener('change', applyFilters);
+    });
+
+    let allHotels = [];
+
+    function fetchHotels() {
+        allHotels = [
+            { name: 'Arusha Serena Hotel', city: 'Arusha', rating: 5, image: 'https://source.unsplash.com/random/300x200?hotel' },
+            { name: 'Zanzibar Beach Resort', city: 'Zanzibar', rating: 4, image: 'https://source.unsplash.com/random/300x200?resort' },
+            { name: 'Dar Es Salaam Inn', city: 'Dar es Salaam', rating: 3, image: 'https://source.unsplash.com/random/300x200?inn' }
+        ];
+        renderHotels(allHotels);
+    }
+
+    function renderHotels(hotels) {
+        const hotelList = document.getElementById('hotel-list');
+        hotelList.innerHTML = '';
+
+        if (hotels.length === 0) {
+            hotelList.innerHTML = '<p class="text-gray-500 col-span-3">No hotels found.</p>';
+            return;
+        }
+
+        hotels.forEach(hotel => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-3xl shadow-lg overflow-hidden';
+
+            card.innerHTML = `
+                <img src="${hotel.image}" alt="${hotel.name}" class="w-full h-40 object-cover rounded-t-3xl">
+                <div class="p-4">
+                    <h3 class="font-bold text-xl text-blue-600">${hotel.name}</h3>
+                    <p class="text-gray-600 mt-2">${hotel.city}</p>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-yellow-500">${'★'.repeat(hotel.rating)}${'☆'.repeat(5 - hotel.rating)}</span>
+                    </div>
+                </div>
+            `;
+            hotelList.appendChild(card);
+        });
+    }
+
+    function applyFilters() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const cityFilter = document.getElementById('cityFilter').value;
+        const ratingFilter = parseInt(document.getElementById('ratingFilter').value) || 0;
+
+        const filteredHotels = allHotels.filter(hotel => {
+            const matchesSearch = hotel.name.toLowerCase().includes(searchInput) || hotel.city.toLowerCase().includes(searchInput);
+            const matchesCity = cityFilter ? hotel.city === cityFilter : true;
+            const matchesRating = hotel.rating >= ratingFilter;
+
+            return matchesSearch && matchesCity && matchesRating;
+        });
+
+        renderHotels(filteredHotels);
+    }
+</script>
+{% endblock %}

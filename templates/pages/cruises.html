@@ -1,0 +1,100 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Cruises - Barizi{% endblock %}
+
+{% block header_image %}/static/images/cruise-bg.jpg{% endblock %}
+
+{% block header_title %}Cruises{% endblock %}
+
+{% block header_subtitle %}Sail across stunning destinations in comfort.{% endblock %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-center">All Cruises</h2>
+<p class="text-gray-600 text-center mt-1">Discover luxury cruises and exciting sea adventures.</p>
+
+<!-- Search & Filter -->
+<div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+    <input type="text" id="searchInput" placeholder="Search by cruise or destination..." class="w-full md:w-1/3 border border-gray-300 rounded-lg p-2">
+    <select id="destinationFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Destinations</option>
+        <option value="Zanzibar">Zanzibar</option>
+        <option value="Pemba">Pemba</option>
+        <option value="Mafia Island">Mafia Island</option>
+    </select>
+    <select id="priceFilter" class="w-full md:w-1/4 border border-gray-300 rounded-lg p-2">
+        <option value="">All Prices</option>
+        <option value="500">Below $500</option>
+        <option value="1000">Below $1000</option>
+        <option value="2000">Below $2000</option>
+    </select>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+    <section id="cruise-list" class="col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchCruises();
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('destinationFilter').addEventListener('change', applyFilters);
+        document.getElementById('priceFilter').addEventListener('change', applyFilters);
+    });
+
+    let allCruises = [];
+
+    function fetchCruises() {
+        allCruises = [
+            { name: 'Zanzibar Sunset Cruise', destination: 'Zanzibar', price: 450, image: 'https://source.unsplash.com/random/300x200?cruise', rating: 4.8 },
+            { name: 'Pemba Island Explorer', destination: 'Pemba', price: 750, image: 'https://source.unsplash.com/random/300x200?ship', rating: 4.5 },
+            { name: 'Mafia Island Tour', destination: 'Mafia Island', price: 950, image: 'https://source.unsplash.com/random/300x200?boat', rating: 4.2 }
+        ];
+        renderCruises(allCruises);
+    }
+
+    function renderCruises(cruises) {
+        const cruiseList = document.getElementById('cruise-list');
+        cruiseList.innerHTML = '';
+
+        if (cruises.length === 0) {
+            cruiseList.innerHTML = '<p class="text-gray-500 col-span-3">No cruises found.</p>';
+            return;
+        }
+
+        cruises.forEach(cruise => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-3xl shadow-lg overflow-hidden';
+
+            card.innerHTML = `
+                <img src="${cruise.image}" alt="${cruise.name}" class="w-full h-40 object-cover rounded-t-3xl">
+                <div class="p-4">
+                    <h3 class="font-bold text-xl text-blue-600">${cruise.name}</h3>
+                    <p class="text-gray-600 mt-2">${cruise.destination} - $${cruise.price}</p>
+                    <div class="mt-4 flex items-center">
+                        <span class="text-yellow-500">${'★'.repeat(Math.round(cruise.rating))}${'☆'.repeat(5 - Math.round(cruise.rating))}</span>
+                    </div>
+                </div>
+            `;
+            cruiseList.appendChild(card);
+        });
+    }
+
+    function applyFilters() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const destinationFilter = document.getElementById('destinationFilter').value;
+        const priceFilter = parseInt(document.getElementById('priceFilter').value) || Infinity;
+
+        const filteredCruises = allCruises.filter(cruise => {
+            const matchesSearch = cruise.name.toLowerCase().includes(searchInput) || cruise.destination.toLowerCase().includes(searchInput);
+            const matchesDestination = destinationFilter ? cruise.destination === destinationFilter : true;
+            const matchesPrice = cruise.price <= priceFilter;
+
+            return matchesSearch && matchesDestination && matchesPrice;
+        });
+
+        renderCruises(filteredCruises);
+    }
+</script>
+{% endblock %}

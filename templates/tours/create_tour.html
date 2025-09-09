@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 text-gray-900 p-6">
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold mb-6">Create a New Tour Package</h2>
+
+        <form method="POST" action="{% url 'tour-create' %}" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Tour Title & Destination -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block font-medium">Tour Title</label>
+                    <input type="text" name="title" class="w-full p-3 border rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block font-medium">Location</label>
+                    <input type="text" name="location" class="w-full p-3 border rounded-lg" required>
+                </div>
+            </div>
+
+            <!-- Start & End Dates -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block font-medium">Start Date</label>
+                    <input type="date" name="start_date" class="w-full p-3 border rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block font-medium">End Date</label>
+                    <input type="date" name="end_date" class="w-full p-3 border rounded-lg">
+                </div>
+            </div>
+
+            <!-- Duration, Price, and Availability -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block font-medium">Duration</label>
+                    <input type="text" name="duration" class="w-full p-3 border rounded-lg" placeholder="e.g. 5 Days, 4 Nights" required>
+                </div>
+                <div>
+                    <label class="block font-medium">Price (Tsh)</label>
+                    <input type="number" name="price" class="w-full p-3 border rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block font-medium">Availability (Slots)</label>
+                    <input type="number" name="availability" class="w-full p-3 border rounded-lg" required>
+                </div>
+            </div>
+
+            <!-- Min and Max Group Size -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block font-medium">Minimum People</label>
+                    <input type="number" name="min_people" class="w-full p-3 border rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block font-medium">Maximum People</label>
+                    <input type="number" name="max_people" class="w-full p-3 border rounded-lg" required>
+                </div>
+            </div>
+
+            <!-- Inclusions & Exclusions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block font-medium">What's Included?</label>
+                    <textarea name="includes" class="w-full p-3 border rounded-lg h-24" placeholder="e.g. Accommodation, Meals, Park Fees" required></textarea>
+                </div>
+                <div>
+                    <label class="block font-medium">What's Not Included?</label>
+                    <textarea name="excludes" class="w-full p-3 border rounded-lg h-24" placeholder="e.g. International Flights, Insurance" required></textarea>
+                </div>
+            </div>
+
+            <!-- Cancellation Policy & Special Offers -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block font-medium">Cancellation Policy</label>
+                    <textarea name="cancellation_policy" class="w-full p-3 border rounded-lg h-24" placeholder="e.g. Free cancellation up to 7 days before departure" required></textarea>
+                </div>
+                <div>
+                    <label class="block font-medium">Special Offer</label>
+                    <input type="text" name="special_offer" class="w-full p-3 border rounded-lg" placeholder="e.g. 20% off for early bookings">
+                </div>
+            </div>
+
+            <!-- Upload Images -->
+            <div>
+                <label class="block font-medium">Upload Tour Image</label>
+                <input type="file" name="image" class="w-full p-3 border rounded-lg" accept="image/*" required>
+            </div>
+
+            <!-- Itineraries -->
+            <div>
+                <h3 class="text-2xl font-bold mt-8">Itinerary</h3>
+                <div id="itinerary-container" class="space-y-4 mt-4">
+                    <!-- Initial Itinerary Day -->
+                    <div class="border p-4 rounded-lg itinerary-day">
+                        <label class="block font-medium">Day 1</label>
+                        <input type="number" name="itinerary_day_1" class="w-full p-3 border rounded-lg mb-2" placeholder="Day Number" required>
+                        <input type="text" name="itinerary_title_1" class="w-full p-3 border rounded-lg mb-2" placeholder="Title (e.g. Safari Drive)" required>
+                        <textarea name="itinerary_description_1" class="w-full p-3 border rounded-lg h-24" placeholder="Describe activities for Day 1" required></textarea>
+                        <input type="text" name="itinerary_accommodation_1" class="w-full p-3 border rounded-lg mt-2" placeholder="Accommodation (optional)">
+                    </div>
+                </div>
+                <button type="button" id="add-itinerary-day" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg">+ Add Another Day</button>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600">Create Tour Package</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ JavaScript for Dynamic Itinerary Days -->
+<script>
+    let dayCount = 1;
+
+    document.getElementById("add-itinerary-day").addEventListener("click", function() {
+        dayCount++;
+        let container = document.getElementById("itinerary-container");
+        let newDay = document.createElement("div");
+        newDay.classList.add("border", "p-4", "rounded-lg", "itinerary-day", "mt-4");
+        newDay.innerHTML = `
+            <label class="block font-medium">Day ${dayCount}</label>
+            <input type="number" name="itinerary_day_${dayCount}" class="w-full p-3 border rounded-lg mb-2" placeholder="Day Number" required>
+            <input type="text" name="itinerary_title_${dayCount}" class="w-full p-3 border rounded-lg mb-2" placeholder="Title (e.g. Hiking Tour)" required>
+            <textarea name="itinerary_description_${dayCount}" class="w-full p-3 border rounded-lg h-24" placeholder="Describe activities for Day ${dayCount}" required></textarea>
+            <input type="text" name="itinerary_accommodation_${dayCount}" class="w-full p-3 border rounded-lg mt-2" placeholder="Accommodation (optional)">
+        `;
+        container.appendChild(newDay);
+    });
+</script>
+{% endblock %}
