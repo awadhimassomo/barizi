@@ -1,18 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-{% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    {% load static %}
     <title>Discover Your Next Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        glass: "rgba(255, 255, 255, 0.1)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
 </head>
+
 <body class="bg-gray-100 text-gray-900">
     <!-- Hero Section with Background Image -->
     <header class="relative h-screen text-white flex flex-col justify-center items-center">
-        <div class="absolute inset-0">
+        <div id="home" class="absolute inset-0">
             <div class="swiper-container h-full">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
@@ -27,258 +73,362 @@
                 </div>
             </div>
         </div>
-        
-        <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 flex justify-between items-center bg-white bg-opacity-80 px-8 py-3 rounded-full backdrop-blur-md w-[95%] shadow-lg z-50">
-            <div class="text-gray-900 text-2xl font-bold">Barizi</div>
-            <ul class="flex space-x-6 text-gray-900">
-                <li><a href="" class="px-4 py-2 rounded-full bg-blue-100 text-blue-700">Home</a></li>
-                <li><a href="#tours"class="px-4 py-2 rounded-full hover:bg-gray-200">Tours </a></li>
-                <li><a href="#events" class="px-4 py-2 rounded-full hover:bg-gray-200">Events </a></li>
-                <li><a href="#hospitality" class="nav-link px-4 py-2 rounded-full hover:bg-gray-200">Hospitality</a></li>
-                <li><a href="#CurioShop" class="px-4 py-2 rounded-full hover:bg-gray-200">Curio Shop</a></li>
-                <li><a href="#social" class="nav-link px-4 py-2 rounded-full hover:bg-gray-200">Social Impact</a></li>
-                <li><a href="#rentals" class="px-4 py-2 rounded-full hover:bg-gray-200">Rentals</a></li>
-                <li><a href="#Reviews" class="nav-link px-4 py-2 rounded-full hover:bg-gray-200">Reviews</a></li>
-                <li><a href="#plan" class="nav-link px-4 py-2 rounded-full hover:bg-gray-200">Plan</a></li>
+
+        <nav
+            class="glass-nav fixed top-6 left-1/2 transform -translate-x-1/2 flex justify-between items-center px-8 py-4 rounded-full w-[90%] shadow-2xl z-50 transition-all duration-300">
+            <div class="flex items-center space-x-3">
+                <svg class="h-12 w-auto" viewBox="0 0 792 612" xmlns="http://www.w3.org/2000/svg">
+                    <style type="text/css">
+                        .st0 {
+                            fill: #F1F3F7;
+                        }
+
+                        .st1 {
+                            fill: #FFFFFF;
+                        }
+
+                        .st2 {
+                            fill: #F7F8F9;
+                        }
+
+                        .st3 {
+                            fill: #F0EFEF;
+                        }
+                    </style>
+                    <g>
+                        <path class="st0"
+                            d="M492.26,179.89c-8.95,4.7-22.43,13.25-34.74,27.92c-8.34,9.94-13.64,19.7-17,27.28c-8.25,21.14-27.81,35.08-48.8,35.14c-26.76,0.08-51.75-22.42-51.75-51.75c0-28.58,23.17-51.75,51.75-51.75c13.43,0,25.67,5.12,34.87,13.52c4.68,2.06,10.25,3.98,16.65,5.23C464.83,189.7,483.01,183.76,492.26,179.89" />
+                        <path class="st1"
+                            d="M589.12,144.42c-2.45-0.93-5.12-1.08-7.66-0.43l-16.63,3.12c-0.43,0.11-0.88,0.03-1.25-0.21l-24.71-13.07c-1.37-0.91-3.03,0.66-2.2,2.08l10.77,16.07c0.04,0.07,0.07,0.14,0.1,0.21l5.68-2.03l-11.87,7.45l-8.84,5.6c-0.37,0.23-0.82,0.3-1.25,0.19l-9.59-2.64c-1.45-0.4-2.57,1.29-1.63,2.47l5.72,6.66l67.21-22.05C592.33,145.93,591.19,145.21,589.12,144.42" />
+                        <path class="st2"
+                            d="M470.12,207.57c-11.66,11.39-19.61,22.91-24.89,32.02c-8.67,20.85-29.26,35.52-53.25,35.52c-31.85,0-57.67-25.82-57.67-57.67s25.82-57.67,57.67-57.67c16.71,0,31.76,7.11,42.29,18.47c7.65,1.22,16,2.12,24.96,2.49c-3.09-4.94-6.7-9.55-10.76-13.76c-14.72-15.23-35.41-25.04-59.31-25.04c-60.71,0-100.72,63.26-74.69,118.11l74.69,157.43l74.69-157.43C472.12,242.65,473.73,224.39,470.12,207.57" />
+                        <path class="st3"
+                            d="M401.58,447.26c0,6.86-5.56,12.42-12.42,12.42c-6.86,0-12.42-5.56-12.42-12.42c0-6.86,5.56-12.42,12.42-12.42C396.02,434.84,401.58,440.4,401.58,447.26" />
+                    </g>
+                </svg>
+                <span class="text-white text-2xl font-bold tracking-wide">Barizi</span>
+            </div>
+            <ul class="hidden md:flex space-x-2 text-white font-medium">
+                <li><a href="#home"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Home</a>
+                </li>
+                <li><a href="#tours"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Tours</a>
+                </li>
+                <li><a href="#events"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Events</a>
+                </li>
+                <li><a href="#hospitality"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Hospitality</a>
+                </li>
+
+                <li><a href="#social"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Social
+                        Impact</a></li>
+
+
+                <li><a href="#rentals"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Rentals</a>
+                </li>
+
+                <li><a href="#CurioShop"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Curio
+                        Shop</a></li>
+                <li><a href="#Reviews"
+                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Reviews</a>
+                </li>
+
             </ul>
-            <a href='auth/login' class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600">Create Experience →</a>
+            <a href='auth/login'
+                class="bg-white text-black px-6 py-2 rounded-full font-semibold hover:bg-gray-200 transition">Create
+                Experience →</a>
         </nav>
-        
+
         <div class="text-center relative z-20 flex flex-col items-center">
-            <h1 class="text-7xl font-extrabold drop-shadow-lg">DISCOVER YOUR NEXT <span class="text-blue-400" id="dynamic-text">TOUR</span></h1>
-            <p class="mt-4 text-lg max-w-xl text-center">Find the best tours, events, workshops, and experiences near you.</p>
+            <h1 class="text-7xl font-extrabold drop-shadow-lg">DISCOVER YOUR NEXT <span class="text-blue-400"
+                    id="dynamic-text">TOUR</span></h1>
+            <p class="mt-4 text-lg max-w-xl text-center">Find the best tours, events, workshops, and experiences near
+                you.</p>
         </div>
     </header>
 
-    
-    
-   
 
-   <!-- Featured Tours -->
-<section id="tours" class="py-16 text-center">
-    <h2 class="text-4xl font-bold">Adventure Awaits</h2>
 
-    <!-- Location Filter -->
-    <div class="flex flex-wrap justify-center gap-2 mt-6 px-10">
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="all">All Locations</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="serengeti">Serengeti</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="zanzibar">Zanzibar</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="ngorongoro">Ngorongoro Crater</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="kilimanjaro">Mount Kilimanjaro</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="ruaha">Ruaha National Park</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="mafia">Mafia Island</button>
-        <button class="location-chip p-2 px-4 border rounded-full bg-gray-200 hover:bg-gray-300" data-location="gombe">Gombe National Park</button>
-    </div>
 
-    <p class="text-gray-600 mt-2">Discover thrilling adventures across Tanzania.</p>
 
-<!-- Scrollable Tour List (Scrollbar Hidden) -->
-<div class="relative mt-8 px-10">
-    <div id="tour-list" class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-        
-        <a href="{% url 'marketplace' %}" class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-            <img src="/static/images/serengeti.jpg" class="w-full h-64 object-cover rounded-3xl">
-            <h3 class="text-2xl font-bold mt-4 text-black">Serengeti Safari</h3>
-            <p class="text-gray-700">Witness the Great Migration in the world-famous Serengeti.</p>
-            <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                <li><strong>⭐ 4.9</strong></li>
-                <li><strong>5 Days, 4 Nights</strong></li>
-                <li>Game drives & luxury camping included.</li>
-                <li>Travel Dates: June – September 2025</li>
-                <li>Booking Deadline: Book by 31 May 2025</li>
-            </ul>
-        </a>
+    <!-- Featured Tours -->
+    <section id="tours" class="py-16 text-center">
+        <h2 class="text-4xl font-bold">Adventure Awaits</h2>
 
-        <a href="{% url 'marketplace' %}" class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-            <img src="/static/images/zanzibar.jpg" class="w-full h-64 object-cover rounded-3xl">
-            <h3 class="text-2xl font-bold mt-4 text-black">Zanzibar Beach Retreat</h3>
-            <p class="text-gray-700">Relax on Zanzibar’s pristine beaches with crystal-clear waters.</p>
-            <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                <li><strong>⭐ 4.8</strong></li>
-                <li><strong>6 Days, 5 Nights</strong></li>
-                <li>Includes Stone Town tour & snorkeling.</li>
-                <li>Travel Dates: Year-round availability</li>
-                <li>Booking Deadline: Open</li>
-            </ul>
-        </a>
+        <!-- Location Filter -->
+        <div class="flex flex-wrap justify-center gap-2 mt-6 px-10">
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="all">All Locations</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="serengeti">Serengeti</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="zanzibar">Zanzibar</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="ngorongoro">Ngorongoro Crater</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="kilimanjaro">Mount Kilimanjaro</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="ruaha">Ruaha National Park</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="mafia">Mafia Island</button>
+            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
+                data-location="gombe">Gombe National Park</button>
+        </div>
 
-        <a href="{% url 'marketplace' %}" class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-            <img src="/static/images/ngorongoro.jpg" class="w-full h-64 object-cover rounded-3xl">
-            <h3 class="text-2xl font-bold mt-4 text-black">Ngorongoro Crater Tour</h3>
-            <p class="text-gray-700">Explore the world’s largest unbroken caldera filled with wildlife.</p>
-            <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                <li><strong>⭐ 4.7</strong></li>
-                <li><strong>3 Days, 2 Nights</strong></li>
-                <li>Safari lodge stay & game drives included.</li>
-                <li>Travel Dates: June – October 2025</li>
-                <li>Booking Deadline: Book by 30 April 2025</li>
-            </ul>
-        </a>
+        <p class="text-gray-600 mt-2">Discover thrilling adventures across Tanzania.</p>
 
-        <a href="{% url 'marketplace' %}" class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-            <img src="/static/images/kilimanjaro.jpg" class="w-full h-64 object-cover rounded-3xl">
-            <h3 class="text-2xl font-bold mt-4 text-black">Climb Mount Kilimanjaro</h3>
-            <p class="text-gray-700">Conquer Africa’s highest peak with expert guides.</p>
-            <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                <li><strong>⭐ 4.9</strong></li>
-                <li><strong>8 Days, 7 Nights</strong></li>
-                <li>Full climb package with meals & porters.</li>
-                <li>Travel Dates: January – March 2025</li>
-                <li>Booking Deadline: Book by 15 December 2024</li>
-            </ul>
-        </a>
+        <!-- Scrollable Tour List (Scrollbar Hidden) -->
+        <div class="relative mt-8 px-10">
+            <div id="tour-list"
+                class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
 
-    </div>
+                <a href="{% url 'marketplace' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
+                    <img src="/static/images/serengeti.jpg" class="w-full h-64 object-cover rounded-3xl">
+                    <h3 class="text-2xl font-bold mt-4 text-black">Serengeti Safari</h3>
+                    <p class="text-gray-700">Witness the Great Migration in the world-famous Serengeti.</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
+                        <li><strong>⭐ 4.9</strong></li>
+                        <li><strong>5 Days, 4 Nights</strong></li>
+                        <li>Game drives & luxury camping included.</li>
+                        <li>Travel Dates: June – September 2025</li>
+                        <li>Booking Deadline: Book by 31 May 2025</li>
+                    </ul>
+                </a>
 
-    <!-- More Tours Button -->
-    <div class="mt-6 flex justify-center">
-        <a href="{% url 'marketplace' %}" class="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
-            More Tours
-        </a>
-    </div>
-</div>
-</section>
+                <a href="{% url 'marketplace' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
+                    <img src="/static/images/zanzibar.jpg" class="w-full h-64 object-cover rounded-3xl">
+                    <h3 class="text-2xl font-bold mt-4 text-black">Zanzibar Beach Retreat</h3>
+                    <p class="text-gray-700">Relax on Zanzibar’s pristine beaches with crystal-clear waters.</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
+                        <li><strong>⭐ 4.8</strong></li>
+                        <li><strong>6 Days, 5 Nights</strong></li>
+                        <li>Includes Stone Town tour & snorkeling.</li>
+                        <li>Travel Dates: Year-round availability</li>
+                        <li>Booking Deadline: Open</li>
+                    </ul>
+                </a>
 
-    
-    
-<!-- Featured Events -->
-<section id="events" class="py-16 text-center">
-    <h2 class="text-4xl font-bold">Popular Events</h2>
-    <p class="text-gray-600 mt-2">Discover trending events happening around Tanzania.</p>
+                <a href="{% url 'marketplace' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
+                    <img src="/static/images/ngorongoro.jpg" class="w-full h-64 object-cover rounded-3xl">
+                    <h3 class="text-2xl font-bold mt-4 text-black">Ngorongoro Crater Tour</h3>
+                    <p class="text-gray-700">Explore the world’s largest unbroken caldera filled with wildlife.</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
+                        <li><strong>⭐ 4.7</strong></li>
+                        <li><strong>3 Days, 2 Nights</strong></li>
+                        <li>Safari lodge stay & game drives included.</li>
+                        <li>Travel Dates: June – October 2025</li>
+                        <li>Booking Deadline: Book by 30 April 2025</li>
+                    </ul>
+                </a>
 
-    <div class="relative mt-8 px-10">
-        <!-- Event List (Auto-scroll & Mouse Drag Enabled) -->
-        <div id="event-list" class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4
+                <a href="{% url 'marketplace' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
+                    <img src="/static/images/kilimanjaro.jpg" class="w-full h-64 object-cover rounded-3xl">
+                    <h3 class="text-2xl font-bold mt-4 text-black">Climb Mount Kilimanjaro</h3>
+                    <p class="text-gray-700">Conquer Africa’s highest peak with expert guides.</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
+                        <li><strong>⭐ 4.9</strong></li>
+                        <li><strong>8 Days, 7 Nights</strong></li>
+                        <li>Full climb package with meals & porters.</li>
+                        <li>Travel Dates: January – March 2025</li>
+                        <li>Booking Deadline: Book by 15 December 2024</li>
+                    </ul>
+                </a>
+
+            </div>
+
+            <!-- More Tours Button -->
+            <div class="mt-6 flex justify-center">
+                <a href="{% url 'marketplace' %}"
+                    class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
+                    More Tours
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Featured Events -->
+    <section id="events" class="py-16 text-center">
+        <h2 class="text-4xl font-bold">Popular Events</h2>
+        <p class="text-gray-600 mt-2">Discover trending events happening around Tanzania.</p>
+
+        <div class="relative mt-8 px-10">
+            <!-- Event List (Auto-scroll & Mouse Drag Enabled) -->
+            <div id="event-list"
+                class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4
             [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] text-left cursor-grab active:cursor-grabbing">
 
-            <!-- Zanzibar International Film Festival -->
-            <a href="{% url 'event_detail' event_slug='zanzibar-international-film-festival' %}">
-                <div class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                    <img src="/static/images/ziff.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                    <h3 class="text-xl font-bold mt-4">Zanzibar International Film Festival</h3>
-                    <p class="text-gray-700">Africa’s biggest film & cultural festival.</p>
-                    <p class="text-sm text-gray-500">📍 Zanzibar | 📅 July 2025</p>
-                </div>
-            </a>
+                <!-- Zanzibar International Film Festival -->
+                <a href="{% url 'event_detail' event_slug='zanzibar-international-film-festival' %}">
+                    <div
+                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
+                        <img src="/static/images/ziff.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
+                        <h3 class="text-xl font-bold mt-4">Zanzibar International Film Festival</h3>
+                        <p class="text-gray-700">Africa’s biggest film & cultural festival.</p>
+                        <p class="text-sm text-gray-500">📍 Zanzibar | 📅 July 2025</p>
+                    </div>
+                </a>
 
-            <!-- Serengeti Wildebeest Migration -->
-            <a href="{% url 'event_detail' event_slug='the-great-wildebeest-migration' %}">
-                <div class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                    <img src="/static/images/migration.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                    <h3 class="text-xl font-bold mt-4">The Great Wildebeest Migration</h3>
-                    <p class="text-gray-700">Watch millions of animals cross the Serengeti.</p>
-                    <p class="text-sm text-gray-500">📍 Serengeti | 📅 July – October 2025</p>
-                </div>
-            </a>
+                <!-- Serengeti Wildebeest Migration -->
+                <a href="{% url 'event_detail' event_slug='the-great-wildebeest-migration' %}">
+                    <div
+                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
+                        <img src="/static/images/migration.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
+                        <h3 class="text-xl font-bold mt-4">The Great Wildebeest Migration</h3>
+                        <p class="text-gray-700">Watch millions of animals cross the Serengeti.</p>
+                        <p class="text-sm text-gray-500">📍 Serengeti | 📅 July – October 2025</p>
+                    </div>
+                </a>
 
-            <!-- Kilimanjaro Marathon -->
-            <a href="{% url 'event_detail' event_slug='kilimanjaro-marathon' %}">
-                <div class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                    <img src="/static/images/kilimanjaro_marathon.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                    <h3 class="text-xl font-bold mt-4">Kilimanjaro Marathon</h3>
-                    <p class="text-gray-700">Challenge yourself on the slopes of Africa’s highest peak.</p>
-                    <p class="text-sm text-gray-500">📍 Moshi | 📅 February 2025</p>
-                </div>
-            </a>
+                <!-- Kilimanjaro Marathon -->
+                <a href="{% url 'event_detail' event_slug='kilimanjaro-marathon' %}">
+                    <div
+                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
+                        <img src="/static/images/kilimanjaro_marathon.jpg"
+                            class="w-[320px] h-64 object-cover rounded-3xl">
+                        <h3 class="text-xl font-bold mt-4">Kilimanjaro Marathon</h3>
+                        <p class="text-gray-700">Challenge yourself on the slopes of Africa’s highest peak.</p>
+                        <p class="text-sm text-gray-500">📍 Moshi | 📅 February 2025</p>
+                    </div>
+                </a>
 
-            <!-- Sauti za Busara Music Festival -->
-            <a href="{% url 'event_detail' event_slug='sauti-za-busara-festival' %}">
-                <div class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                    <img src="/static/images/sautiza.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                    <h3 class="text-xl font-bold mt-4">Sauti za Busara Festival</h3>
-                    <p class="text-gray-700">Experience Africa’s biggest live music festival.</p>
-                    <p class="text-sm text-gray-500">📍 Zanzibar | 📅 February 2025</p>
-                </div>
-            </a>
+                <!-- Sauti za Busara Music Festival -->
+                <a href="{% url 'event_detail' event_slug='sauti-za-busara-festival' %}">
+                    <div
+                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
+                        <img src="/static/images/sautiza.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
+                        <h3 class="text-xl font-bold mt-4">Sauti za Busara Festival</h3>
+                        <p class="text-gray-700">Experience Africa’s biggest live music festival.</p>
+                        <p class="text-sm text-gray-500">📍 Zanzibar | 📅 February 2025</p>
+                    </div>
+                </a>
 
-            <!-- Full Moon Party Zanzibar -->
-            <a href="{% url 'event_detail' event_slug='full-moon-party' %}">
-                <div class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                    <img src="/static/images/fullmoon.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                    <h3 class="text-xl font-bold mt-4">Full Moon Party</h3>
-                    <p class="text-gray-700">Zanzibar’s biggest beach party under the stars.</p>
-                    <p class="text-sm text-gray-500">📍 Kendwa, Zanzibar | 📅 Monthly</p>
-                </div>
-            </a>
+                <!-- Full Moon Party Zanzibar -->
+                <a href="{% url 'event_detail' event_slug='full-moon-party' %}">
+                    <div
+                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
+                        <img src="/static/images/fullmoon.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
+                        <h3 class="text-xl font-bold mt-4">Full Moon Party</h3>
+                        <p class="text-gray-700">Zanzibar’s biggest beach party under the stars.</p>
+                        <p class="text-sm text-gray-500">📍 Kendwa, Zanzibar | 📅 Monthly</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- More Events Button (Centered) -->
+            <div class="mt-6 flex justify-center">
+                <a href="/events"
+                    class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
+                    More Events
+                </a>
+            </div>
         </div>
+    </section>
 
-        <!-- More Events Button (Centered) -->
-        <div class="mt-6 flex justify-center">
-            <a href="/events" class="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
-                More Events
-            </a>
+
+
+    <!-- Hospitality & Travel Services Section -->
+    <section id="hospitality" class="py-16 text-center bg-gray-100 px-10">
+        <h2 class="text-4xl font-bold">Hospitality & Travel Services</h2>
+        <p class="text-gray-600 mt-2">Book flights, hotels, and Airbnbs at the best prices.</p>
+
+        <div class="relative mt-8 px-4 md:px-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+                <!-- Flights (Large Feature) -->
+                <a href="{% url 'flights' %}"
+                    class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-3xl shadow-lg cursor-pointer">
+                    <img src="/static/images/airplane.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Flights">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
+                        <h3 class="text-3xl font-bold text-white mb-2">Flights</h3>
+                        <p class="text-gray-200">Find the best flight deals to your dream destinations.</p>
+                    </div>
+                </a>
+
+                <!-- Hotels (Wide Feature) -->
+                <a href="{% url 'hotels' %}"
+                    class="md:col-span-2 group relative overflow-hidden rounded-3xl shadow-lg cursor-pointer h-64 md:h-auto">
+                    <img src="/static/images/hotel.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Hotels">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-8 flex flex-col justify-end">
+                        <h3 class="text-2xl font-bold text-white mb-1">Hotels</h3>
+                        <p class="text-gray-200 text-sm">Stay in top-rated hotels worldwide.</p>
+                    </div>
+                </a>
+
+                <!-- Foodie (Standard) -->
+                <a href="{% url 'restaurants' %}"
+                    class="group relative overflow-hidden rounded-3xl shadow-lg cursor-pointer h-64">
+                    <img src="/static/images/foodie.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Foodie">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-xl font-bold text-white">Foodie</h3>
+                        <p class="text-gray-200 text-xs">Culinary adventures.</p>
+                    </div>
+                </a>
+
+                <!-- Cruises (Standard) -->
+                <a href="{% url 'cruises' %}"
+                    class="group relative overflow-hidden rounded-3xl shadow-lg cursor-pointer h-64">
+                    <img src="/static/images/cruise.jpg"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Cruises">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+                        <h3 class="text-xl font-bold text-white">Cruises</h3>
+                        <p class="text-gray-200 text-xs">Sail in comfort.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- More Services Button -->
+            <div class="mt-10 flex justify-center">
+                <a href="/services"
+                    class="px-8 py-3 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1">
+                    More Services
+                </a>
+            </div>
         </div>
-    </div>
-</section>
-
-
-
-<!-- Hospitality & Travel Services Section -->
-<section id="hospitality" class="py-16 text-center bg-gray-100 px-10">
-    <h2 class="text-4xl font-bold">Hospitality & Travel Services</h2>
-    <p class="text-gray-600 mt-2">Book flights, hotels, and Airbnbs at the best prices.</p>
-
-    <div class="relative mt-8 px-10">
-        <div id="hospitality-list" class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4
-            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-
-            <!-- Flights -->
-            <a href="{% url 'flights' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl transition-shadow">
-                <img src="/static/images/airplane.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Flights">
-                <h3 class="text-2xl font-bold mt-4 text-black">Flights</h3>
-                <p class="text-gray-700">Find the best flight deals to your dream destinations.</p>
-            </a>
-
-            <!-- Hotels -->
-            <a href="{% url 'hotels' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl transition-shadow">
-                <img src="/static/images/hotel.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Hotels">
-                <h3 class="text-2xl font-bold mt-4 text-black">Hotels</h3>
-                <p class="text-gray-700">Stay in top-rated hotels worldwide.</p>
-            </a>
-
-            <!-- Foodie -->
-            <a href="{% url 'restaurants' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl transition-shadow">
-                <img src="/static/images/foodie.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Foodie">
-                <h3 class="text-2xl font-bold mt-4 text-black">Foodie</h3>
-                <p class="text-gray-700">Enjoy the culture with the right food.</p>
-            </a>
-
-            <!-- Cruises -->
-            <a href="{% url 'cruises' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl transition-shadow">
-                <img src="/static/images/cruise.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Cruises">
-                <h3 class="text-2xl font-bold mt-4 text-black">Cruises</h3>
-                <p class="text-gray-700">Sail across stunning destinations in comfort.</p>
-            </a>
-        </div>
-
-        <!-- More Services Button -->
-        <div class="mt-6 flex justify-center">
-            <a href="/services" class="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
-                More Services
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
 
 
     <!-- Social Impact Travel Section -->
     <section id="social" class="py-16 text-center bg-white px-10">
         <h2 class="text-4xl font-bold">Social Impact Travel</h2>
-        <p class="text-gray-600 mt-2">Make a difference while exploring the world through impactful travel opportunities.</p>
+        <p class="text-gray-600 mt-2">Make a difference while exploring the world through impactful travel
+            opportunities.</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-left">
-            
+
             <!-- Exchange Programs & Volunteering -->
             <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
                 <img src="/static/images/exchange-program.jpg" class="w-full h-64 object-cover rounded-3xl">
                 <h3 class="text-2xl font-bold mt-4 text-black">Exchange Programs & Volunteering</h3>
-                <p class="text-gray-700">Join cultural exchange programs or volunteer for meaningful causes worldwide.</p>
+                <p class="text-gray-700">Join cultural exchange programs or volunteer for meaningful causes worldwide.
+                </p>
                 <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
                     <li>Teach, mentor, and share skills abroad.</li>
                     <li>Support local NGOs and social projects.</li>
                     <li>Immerse yourself in different cultures.</li>
                 </ul>
             </div>
-            
+
             <!-- Community Engagement & Skill Sharing -->
             <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
                 <img src="/static/images/community-engagement.jpg" class="w-full h-64 object-cover rounded-3xl">
@@ -290,7 +440,7 @@
                     <li>Foster cross-cultural understanding through skills exchange.</li>
                 </ul>
             </div>
-            
+
             <!-- Environmental Conservation -->
             <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
                 <img src="/static/images/environment-conservation.jpg" class="w-full h-64 object-cover rounded-3xl">
@@ -302,16 +452,16 @@
                     <li>Contribute to reducing carbon footprints while traveling.</li>
                 </ul>
             </div>
-            </div>
+        </div>
 
         <!-- More Impact Button -->
         <div class="mt-6 flex justify-center">
-            <a href="/impact" class="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition">
+            <a href="/impact" class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
                 More Impact
             </a>
         </div>
-    </div>
-</section>
+        </div>
+    </section>
 
 
 
@@ -327,29 +477,37 @@
                 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
 
                 <!-- Camping Gear -->
-                <a href="{% url 'rentals-page' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
-                    <img src="/static/images/rental1.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Camping Gear">
+                <a href="{% url 'rentals-page' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
+                    <img src="/static/images/rental1.jpg" class="w-full h-64 object-cover rounded-3xl"
+                        alt="Camping Gear">
                     <h3 class="text-2xl font-bold mt-4 text-black">Premium Camping Gear</h3>
                     <p class="text-gray-700">Quality camping equipment for your outdoor adventures.</p>
                 </a>
 
                 <!-- Photography Equipment -->
-                <a href="{% url 'rentals-page' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
-                    <img src="/static/images/rental2.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Photography Equipment">
+                <a href="{% url 'rentals-page' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
+                    <img src="/static/images/rental2.jpg" class="w-full h-64 object-cover rounded-3xl"
+                        alt="Photography Equipment">
                     <h3 class="text-2xl font-bold mt-4 text-black">Professional Camera Set</h3>
                     <p class="text-gray-700">High-end photography equipment for special occasions.</p>
                 </a>
 
                 <!-- Hiking Equipment -->
-                <a href="{% url 'rentals-page' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
-                    <img src="/static/images/rental-icon2.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Hiking Equipment">
+                <a href="{% url 'rentals-page' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
+                    <img src="/static/images/rental-icon2.jpg" class="w-full h-64 object-cover rounded-3xl"
+                        alt="Hiking Equipment">
                     <h3 class="text-2xl font-bold mt-4 text-black">Hiking Equipment</h3>
                     <p class="text-gray-700">Essential gear for hiking enthusiasts.</p>
                 </a>
 
                 <!-- Event Hosting Package -->
-                <a href="{% url 'rentals-page' %}" class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
-                    <img src="/static/images/rental3.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Event Hosting Package">
+                <a href="{% url 'rentals-page' %}"
+                    class="min-w-[300px] flex-shrink-0 snap-center bg-white p-6 rounded-3xl shadow-lg cursor-pointer hover:shadow-2xl hover:bg-gray-50 transition-all border border-gray-100">
+                    <img src="/static/images/rental3.jpg" class="w-full h-64 object-cover rounded-3xl"
+                        alt="Event Hosting Package">
                     <h3 class="text-2xl font-bold mt-4 text-black">Event Hosting Package</h3>
                     <p class="text-gray-700">Complete sound system and lighting for events and parties.</p>
                 </a>
@@ -358,103 +516,271 @@
 
         <!-- More Rentals Button -->
         <div class="mt-6">
-            <a href="{% url 'rentals-page' %}" class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-800 transition">
+            <a href="{% url 'rentals-page' %}"
+                class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
                 View All Rental Items
             </a>
         </div>
     </section>
-</section>
+    </section>
 
 
-    <!-- Impact Stories & Articles Section -->
-    <section id="stories" class="py-16 text-center bg-gray-100 px-10 mt-10">
-        <h2 class="text-4xl font-bold">Impact Chronicles</h2>
-        <p class="text-gray-600 mt-2">Read inspiring stories linked to our NFC artifacts and learn about our impact initiatives.</p>
+    <!-- Curio Shop Section -->
+    <section id="CurioShop" class="py-16 text-center bg-gray-100 px-4 md:px-10 mt-10">
+        <h2 class="text-4xl font-bold">Curio Shop</h2>
+        <p class="text-gray-600 mt-2">Discover authentic African artifacts, handcrafted souvenirs, and unique treasures.
+        </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-left">
-            <div class="bg-white p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/story1.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Women in tourism">
-                <h3 class="text-2xl font-bold mt-4 text-black">Empowering Women Through Travel</h3>
-                <p class="text-gray-700">How tourism is creating opportunities for women in local communities.</p>
-                <a href="" class="text-blue-600 mt-4 inline-block">Read More →</a>
+
+            <!-- Card 1 -->
+            <div
+                class="bg-white p-4 rounded-3xl shadow-lg group relative overflow-hidden transition-all hover:shadow-2xl">
+                <div class="relative overflow-hidden rounded-2xl">
+                    <img src="/static/images/story1.jpg"
+                        class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Maasai Jewelry">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                        Tzs 45,000
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold mt-4 text-black group-hover:text-orange-600 transition-colors">Handcrafted
+                    Maasai Jewelry</h3>
+                <p class="text-gray-700 mt-1">Exquisite beadwork and traditional designs made by local artisans.</p>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/story2.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Sustainable tourism">
-                <h3 class="text-2xl font-bold mt-4 text-black">Sustainable Tourism in Tanzania</h3>
-                <p class="text-gray-700">Discover the efforts to make tourism more sustainable and eco-friendly.</p>
-                <a href="pod.html" class="text-blue-600 mt-4 inline-block">Read More →</a>
+            <!-- Card 2 -->
+            <div
+                class="bg-white p-4 rounded-3xl shadow-lg group relative overflow-hidden transition-all hover:shadow-2xl">
+                <div class="relative overflow-hidden rounded-2xl">
+                    <img src="/static/images/story2.jpg"
+                        class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Ebony Carvings">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                        Tzs 120,000
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold mt-4 text-black group-hover:text-orange-600 transition-colors">Ebony Wood
+                    Carvings</h3>
+                <p class="text-gray-700 mt-1">Intricate sculptures depicting African wildlife and culture.</p>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/story3.jpg" class="w-full h-64 object-cover rounded-3xl" alt="Cultural artifacts">
-                <h3 class="text-2xl font-bold mt-4 text-black">The Role of Artifacts in Preserving Culture</h3>
-                <p class="text-gray-700">How NFC technology is helping preserve and share cultural heritage.</p>
-                <a href="pod.html" class="text-blue-600 mt-4 inline-block">Read More →</a>
+            <!-- Card 3 -->
+            <div
+                class="bg-white p-4 rounded-3xl shadow-lg group relative overflow-hidden transition-all hover:shadow-2xl">
+                <div class="relative overflow-hidden rounded-2xl">
+                    <img src="/static/images/story3.jpg"
+                        class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Traditional Textiles">
+                    <div
+                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                        Tzs 35,000
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-gray-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold mt-4 text-black group-hover:text-orange-600 transition-colors">Authentic
+                    Maasai Shuka</h3>
+                <p class="text-gray-700 mt-1">Vibrant and durable traditional fabrics, perfect for any occasion.</p>
             </div>
         </div>
 
-        <!-- Book Impact Tour Button -->
-        <div class="mt-6">
-            <a href="/impact" class="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition">
-                Book Impact Tour
+        <!-- Visit Shop Button -->
+        <div class="mt-10">
+            <a href="/shop"
+                class="px-8 py-3 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1">
+                Visit Curio Shop
             </a>
         </div>
     </section>
 
-        <!-- Why Plan Your Trip and Event With Us -->
-        <section  id="plan" class="py-16 text-center bg-gray-100 px-10">
-            <h2 class="text-4xl font-bold">Why Plan Your Trip and Event With Us?</h2>
-            <p class="text-gray-600 mt-2">We offer the best travel experiences and event planning solutions tailored to your needs.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-                <div class="flex flex-col space-y-6">
-                    <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
-                        <img src="/static/icons/package-icon.png" class="w-12 h-12">
-                        <div>
-                            <h3 class="text-xl font-bold">Expertly Curated Packages</h3>
-                            <p class="text-gray-700">Carefully designed itineraries tailored to your preferences.</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
-                        <img src="/static/icons/support-icon.png" class="w-12 h-12">
-                        <div>
-                            <h3 class="text-xl font-bold">24/7 Customer Support</h3>
-                            <p class="text-gray-700">We're here to assist you at every step of your journey.</p>
-                        </div>
-                    </div>
-                    <img src="/static/images/support.jpg" class="w-full h-48 object-cover rounded-3xl">
+
+    <!-- Reviews Section -->
+    <section id="Reviews" class="py-16 text-center bg-white px-4 md:px-10">
+        <h2 class="text-4xl font-bold">Traveler Reviews</h2>
+        <p class="text-gray-600 mt-2">See what our guests are saying about their experiences.</p>
+
+        <!-- Reviews Grid (Placeholder) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-left">
+            <!-- Review 1 -->
+            <div class="bg-gray-50 p-6 rounded-3xl shadow-sm">
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="text-yellow-400 text-xl">★★★★★</div>
                 </div>
-                <div>
-                    <img src="/static/images/travel-main.jpg" class="w-full h-full object-cover rounded-3xl">
+                <p class="text-gray-700 italic">"An unforgettable journey! The guides were amazing and the scenery was
+                    breathtaking."</p>
+                <p class="text-gray-900 font-bold mt-4">- Sarah J.</p>
+            </div>
+            <!-- Review 2 -->
+            <div class="bg-gray-50 p-6 rounded-3xl shadow-sm">
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="text-yellow-400 text-xl">★★★★★</div>
                 </div>
-                <div class="flex flex-col space-y-6">
-                    <img src="/static/images/booking.jpg" class="w-full h-48 object-cover rounded-3xl">
-                    <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
-                        <img src="/static/icons/booking-icon.png" class="w-12 h-12">
-                        <div>
-                            <h3 class="text-xl font-bold">Hassle-Free Booking</h3>
-                            <p class="text-gray-700">Easy and secure booking process, giving you peace of mind.</p>
-                        </div>
+                <p class="text-gray-700 italic">"Everything was perfectly organized. I didn't have to worry about a
+                    thing."</p>
+                <p class="text-gray-900 font-bold mt-4">- Michael T.</p>
+            </div>
+            <!-- Review 3 -->
+            <div class="bg-gray-50 p-6 rounded-3xl shadow-sm">
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="text-yellow-400 text-xl">★★★★★</div>
+                </div>
+                <p class="text-gray-700 italic">"Highly recommend! The cultural experiences were authentic and
+                    touching."</p>
+                <p class="text-gray-900 font-bold mt-4">- Emily R.</p>
+            </div>
+        </div>
+        <!-- Write a Review Button -->
+        <div class="mt-10">
+            <button onclick="toggleReviewForm()"
+                class="px-8 py-3 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1">
+                Write a Review
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- Why Plan Your Trip and Event With Us -->
+    <section id="plan" class="py-16 text-center bg-gray-100 px-10">
+        <h2 class="text-4xl font-bold">Why Plan Your Trip and Event With Us?</h2>
+        <p class="text-gray-600 mt-2">We offer the best travel experiences and event planning solutions tailored to
+            your
+            needs.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            <div class="flex flex-col space-y-6">
+                <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
+                    <img src="/static/icons/package-icon.png" class="w-12 h-12">
+                    <div>
+                        <h3 class="text-xl font-bold">Expertly Curated Packages</h3>
+                        <p class="text-gray-700">Carefully designed itineraries tailored to your preferences.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
-                        <img src="/static/icons/security-icon.png" class="w-12 h-12">
-                        <div>
-                            <h3 class="text-xl font-bold">Secure Payments</h3>
-                            <p class="text-gray-700">We ensure secure transactions for a worry-free experience.</p>
-                        </div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
+                    <img src="/static/icons/support-icon.png" class="w-12 h-12">
+                    <div>
+                        <h3 class="text-xl font-bold">24/7 Customer Support</h3>
+                        <p class="text-gray-700">We're here to assist you at every step of your journey.</p>
+                    </div>
+                </div>
+                <img src="/static/images/support_new.png" class="w-full h-48 object-cover rounded-3xl">
+            </div>
+            <div>
+                <img src="/static/images/travel_main_new.png" class="w-full h-full object-cover rounded-3xl">
+            </div>
+            <div class="flex flex-col space-y-6">
+                <img src="/static/images/booking_new.png" class="w-full h-48 object-cover rounded-3xl">
+                <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
+                    <img src="/static/icons/booking-icon.png" class="w-12 h-12">
+                    <div>
+                        <h3 class="text-xl font-bold">Hassle-Free Booking</h3>
+                        <p class="text-gray-700">Easy and secure booking process, giving you peace of mind.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl flex items-center space-x-4">
+                    <img src="/static/icons/security-icon.png" class="w-12 h-12">
+                    <div>
+                        <h3 class="text-xl font-bold">Secure Payments</h3>
+                        <p class="text-gray-700">We ensure secure transactions for a worry-free experience.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    
-   
-    
+        </div>
+
+    </section>
+
+
+
+
+
+    <!-- Review Form Dropdown (Hidden) -->
+    <div id="review-form"
+        class="hidden mt-8 max-w-2xl mx-auto bg-gray-50 p-8 rounded-3xl shadow-xl text-left transition-all duration-500">
+        <h3 class="text-2xl font-bold mb-6">Share Your Experience</h3>
+        <form>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Name</label>
+                    <input type="text"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Your Name">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">Add a Dime</label>
+                    <input type="text"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter dime...">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Rating</label>
+                <select
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black">
+                    <option>5 - Excellent</option>
+                    <option>4 - Very Good</option>
+                    <option>3 - Good</option>
+                    <option>2 - Fair</option>
+                    <option>1 - Poor</option>
+                </select>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 font-bold mb-2">Review</label>
+                <textarea
+                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black h-32"
+                    placeholder="Tell us about your trip..."></textarea>
+            </div>
+            <div class="text-center">
+                <button type="button"
+                    class="px-8 py-3 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition">
+                    Submit Review
+                </button>
+            </div>
+        </form>
+    </div>
+    </section>
+
+    <script>
+        function toggleReviewForm() {
+            const form = document.getElementById('review-form');
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+                form.classList.add('animate-fade-in-down'); // Optional animation class
+            } else {
+                form.classList.add('hidden');
+            }
+        }
+    </script>
+
+
+
     <!-- Footer -->
     <footer class="bg-black text-white py-16 px-10">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-left">
             <div>
                 <h3 class="text-2xl font-bold">BARIZI</h3>
-                <p class="text-gray-400 mt-2">Explore the world’s hidden treasures, waiting to be discovered with us.</p>
+                <p class="text-gray-400 mt-2">Explore the world’s hidden treasures, waiting to be discovered with us.
+                </p>
             </div>
             <div>
                 <h3 class="text-xl font-bold">Quick Links</h3>
@@ -493,7 +819,8 @@
     </footer>
 
 
-    <button id="music-toggle" class="fixed bottom-6 left-6 bg-blue-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-600 transition">
+    <button id="music-toggle"
+        class="fixed bottom-6 left-6 bg-black text-white px-5 py-3 rounded-full shadow-lg hover:bg-gray-900 transition">
         🎵 Play Music
     </button>
 
@@ -504,12 +831,13 @@
     </audio>
 
 
-    
+
     <!-- Back to Top Button -->
-    <button id="backToTop" class="fixed bottom-6 right-6 bg-blue-500 text-white p-3 rounded-full shadow-lg hidden">↑</button>
+    <button id="backToTop"
+        class="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hidden">↑</button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const audio = document.getElementById("bg-music");
             const toggleButton = document.getElementById("music-toggle");
             let isPlaying = false;
@@ -527,7 +855,7 @@
             }).catch(error => console.log("Autoplay blocked:", error));
 
             // Toggle Play/Pause Button
-            toggleButton.addEventListener("click", function() {
+            toggleButton.addEventListener("click", function () {
                 if (isPlaying) {
                     audio.pause();
                     toggleButton.innerHTML = "🎵 Play Music";
@@ -540,35 +868,35 @@
             });
         });
     </script>
-    
-        <script>
-            // Show/Hide Back to Top Button
-            const backToTopBtn = document.getElementById("backToTop");
-            window.addEventListener("scroll", () => {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.remove("hidden");
-                } else {
-                    backToTopBtn.classList.add("hidden");
-                }
-            });
-    
-            // Scroll to Top Functionality
-            backToTopBtn.addEventListener("click", () => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            });
-        </script>
 
     <script>
-        const textOptions = ["TOUR", "EVENT", "EXPERIENCE", "ADVENTURE","WORKSHOP","COMMUNITY","LOCAL RECEIPE"];
+        // Show/Hide Back to Top Button
+        const backToTopBtn = document.getElementById("backToTop");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove("hidden");
+            } else {
+                backToTopBtn.classList.add("hidden");
+            }
+        });
+
+        // Scroll to Top Functionality
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+
+    <script>
+        const textOptions = ["TOUR", "EVENT", "EXPERIENCE", "ADVENTURE", "WORKSHOP", "COMMUNITY", "LOCAL RECEIPE"];
         let index = 0;
-        
+
         function changeText() {
             document.getElementById("dynamic-text").innerText = textOptions[index];
             index = (index + 1) % textOptions.length;
         }
-        
+
         setInterval(changeText, 3000);
-    
+
         var swiper = new Swiper('.swiper-container', {
             loop: true,
             autoplay: {
@@ -579,94 +907,157 @@
         });
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tourList = document.getElementById("tour-list");
-        let scrollAmount = 0;
-        const scrollStep = 320; // Adjust scroll width per step
-        const interval = 4000; // Time in milliseconds (4 sec per scroll)
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tourList = document.getElementById("tour-list");
+            let scrollAmount = 0;
+            const scrollStep = 320; // Adjust scroll width per step
+            const interval = 4000; // Time in milliseconds (4 sec per scroll)
 
-        function autoScroll() {
-            if (tourList.scrollLeft + tourList.clientWidth >= tourList.scrollWidth) {
-                tourList.scrollLeft = 0; // Reset to start when reaching the end
-            } else {
-                tourList.scrollLeft += scrollStep; // Scroll right
+            function autoScroll() {
+                if (tourList.scrollLeft + tourList.clientWidth >= tourList.scrollWidth) {
+                    tourList.scrollLeft = 0; // Reset to start when reaching the end
+                } else {
+                    tourList.scrollLeft += scrollStep; // Scroll right
+                }
             }
-        }
 
-        // Start auto-scrolling
-        let scrollInterval = setInterval(autoScroll, interval);
+            // Start auto-scrolling
+            let scrollInterval = setInterval(autoScroll, interval);
 
-        // Pause auto-scroll on manual interaction
-        tourList.addEventListener("mouseenter", () => clearInterval(scrollInterval));
-        tourList.addEventListener("mouseleave", () => scrollInterval = setInterval(autoScroll, interval));
-    });
-</script>
-
-<!-- events-->
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const eventList = document.getElementById("event-list");
-        const prevBtn = document.getElementById("prev");
-        const nextBtn = document.getElementById("next");
-        const scrollStep = 320; // Adjust scroll width per step
-        const interval = 4000; // Time in milliseconds (4 sec per scroll)
-
-        function autoScroll() {
-            if (eventList.scrollLeft + eventList.clientWidth >= eventList.scrollWidth) {
-                eventList.scrollLeft = 0; // Reset to start when reaching the end
-            } else {
-                eventList.scrollLeft += scrollStep; // Scroll right
-            }
-        }
-
-        // Start auto-scrolling
-        let scrollInterval = setInterval(autoScroll, interval);
-
-        // Pause auto-scroll on manual interaction
-        eventList.addEventListener("mouseenter", () => clearInterval(scrollInterval));
-        eventList.addEventListener("mouseleave", () => scrollInterval = setInterval(autoScroll, interval));
-
-        // Manual scrolling with buttons
-        prevBtn.addEventListener("click", () => {
-            eventList.scrollBy({ left: -scrollStep, behavior: "smooth" });
+            // Pause auto-scroll on manual interaction
+            tourList.addEventListener("mouseenter", () => clearInterval(scrollInterval));
+            tourList.addEventListener("mouseleave", () => scrollInterval = setInterval(autoScroll, interval));
         });
+    </script>
 
-        nextBtn.addEventListener("click", () => {
-            eventList.scrollBy({ left: scrollStep, behavior: "smooth" });
-        });
-    });
-</script>
+    <!-- events-->
 
-<!-- Auto Scroll Script -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const hospitalityList = document.getElementById("hospitality-list");
-        const socialList = document.getElementById("social-list");
-        let scrollStep = 320; // Adjust scroll width per step
-        let interval = 4000; // Time in milliseconds (4 sec per scroll)
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const eventList = document.getElementById("event-list");
+            const prevBtn = document.getElementById("prev");
+            const nextBtn = document.getElementById("next");
+            const scrollStep = 320; // Adjust scroll width per step
+            const interval = 4000; // Time in milliseconds (4 sec per scroll)
 
-        function autoScroll(list) {
-            if (list.scrollLeft + list.clientWidth >= list.scrollWidth) {
-                list.scrollLeft = 0; // Reset to start when reaching the end
-            } else {
-                list.scrollLeft += scrollStep; // Scroll right
+            function autoScroll() {
+                if (eventList.scrollLeft + eventList.clientWidth >= eventList.scrollWidth) {
+                    eventList.scrollLeft = 0; // Reset to start when reaching the end
+                } else {
+                    eventList.scrollLeft += scrollStep; // Scroll right
+                }
             }
-        }
 
-        // Start auto-scrolling
-        let hospitalityInterval = setInterval(() => autoScroll(hospitalityList), interval);
-        let socialInterval = setInterval(() => autoScroll(socialList), interval);
+            // Start auto-scrolling
+            let scrollInterval = setInterval(autoScroll, interval);
 
-        // Pause auto-scroll on manual interaction
-        hospitalityList.addEventListener("mouseenter", () => clearInterval(hospitalityInterval));
-        hospitalityList.addEventListener("mouseleave", () => hospitalityInterval = setInterval(() => autoScroll(hospitalityList), interval));
+            // Pause auto-scroll on manual interaction
+            eventList.addEventListener("mouseenter", () => clearInterval(scrollInterval));
+            eventList.addEventListener("mouseleave", () => scrollInterval = setInterval(autoScroll, interval));
 
-        socialList.addEventListener("mouseenter", () => clearInterval(socialInterval));
-        socialList.addEventListener("mouseleave", () => socialInterval = setInterval(() => autoScroll(socialList), interval));
-    });
-</script>
-    
+            // Manual scrolling with buttons
+            prevBtn.addEventListener("click", () => {
+                eventList.scrollBy({ left: -scrollStep, behavior: "smooth" });
+            });
+
+            nextBtn.addEventListener("click", () => {
+                eventList.scrollBy({ left: scrollStep, behavior: "smooth" });
+            });
+        });
+    </script>
+
+    <!-- Auto Scroll Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const socialList = document.getElementById("social-list");
+            let scrollStep = 320; // Adjust scroll width per step
+            let interval = 4000; // Time in milliseconds (4 sec per scroll)
+
+            function autoScroll(list) {
+                if (list && list.scrollLeft + list.clientWidth >= list.scrollWidth) {
+                    list.scrollLeft = 0; // Reset to start when reaching the end
+                } else if (list) {
+                    list.scrollLeft += scrollStep; // Scroll right
+                }
+            }
+
+            // Start auto-scrolling
+            if (socialList) {
+                let socialInterval = setInterval(() => autoScroll(socialList), interval);
+                socialList.addEventListener("mouseenter", () => clearInterval(socialInterval));
+                socialList.addEventListener("mouseleave", () => socialInterval = setInterval(() => autoScroll(socialList), interval));
+            }
+        });
+    </script>
+
+    <!-- Scroll Reveal Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach((el) => {
+                el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10', 'ease-out');
+                observer.observe(el);
+            });
+        });
+    </script>
+    <!-- Adaptive Navigation & Scroll Spy Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('section, #home');
+
+            // Adaptive Nav Background
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 50) {
+                    nav.classList.remove('glass-nav');
+                    nav.classList.add('bg-black/80', 'backdrop-blur-xl', 'border-transparent', 'shadow-xl');
+                } else {
+                    nav.classList.add('glass-nav');
+                    nav.classList.remove('bg-black/80', 'backdrop-blur-xl', 'border-transparent', 'shadow-xl');
+                }
+
+                // Scroll Spy Logic
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Offset for fixed nav
+                    if (pageYOffset >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    // Reset all links
+                    link.classList.remove('bg-white', 'text-black', 'shadow-md');
+                    link.classList.add('text-white', 'hover:bg-white/10');
+
+                    // Set active link
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.remove('text-white', 'hover:bg-white/10');
+                        link.classList.add('bg-white', 'text-black', 'shadow-md');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
