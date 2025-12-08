@@ -15,13 +15,17 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.utils import timezone
+from tour.models import Event
 
 
 
 
 CustomUser = get_user_model()
 def landing_page(request):
-    return render(request, 'tours/index.html') 
+    today = timezone.now().date()
+    events = Event.objects.filter(date__gte=today).order_by('date')[:3]
+    return render(request, 'tours/index.html', {"events": events}) 
 
 def home_redirect(request):
     return redirect("login")
@@ -37,7 +41,7 @@ def register_view(request):
         name = request.POST['name']
         email = request.POST['email']
         password = request.POST['password']
-        role = request.POST['role']
+        role = request.POST.get('role', 'customer')
 
         # Check if the email already exists
         if CustomUser.objects.filter(email=email).exists():
@@ -95,7 +99,8 @@ def login_view(request):
             if user.role == 'customer':
                 return redirect('upgrade-account')  # Force upgrade for customers
             elif user.role == 'vendor':
-                return redirect('vendor-dashboard')
+                # No separate vendor dashboard yet; send to main operator dashboard
+                return redirect('dashboard')
             elif user.role == 'planner':
                 return redirect('planner-dashboard')
             elif user.role == 'operator':
@@ -175,4 +180,4 @@ def upgrade_account(request):
         messages.success(request, f'Your account has been upgraded to {desired_role}.')
         return redirect('home')  # Redirect to the home or dashboard after upgrade
 
-    return render(request, 'upgrade_account.html')
+    return render(request, 'users/upgrade.html')

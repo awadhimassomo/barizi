@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 p-6">
+    <div class="container mx-auto">
+        <h2 class="text-2xl font-bold mb-4">Agenda for: {{ event.title }}</h2>
+
+        <!-- Step indicator -->
+        <div class="flex items-center space-x-4 mb-6 text-sm">
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-primary text-white">1</div>
+                <span class="ml-2 font-semibold">Basics</span>
+            </div>
+            <div class="h-px w-10 bg-gray-300"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-primary text-white">2</div>
+                <span class="ml-2 font-semibold">Agenda &amp; Timetable</span>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-3 rounded text-white {% if message.tags == 'success' %}bg-primary{% elif message.tags == 'error' %}bg-red-500{% else %}bg-secondary{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="relative">
+                <!-- Floating chat icon -->
+                <button type="button" id="agenda-assistant-toggle" class="fixed bottom-6 right-6 z-20 flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white shadow-lg hover:bg-orange-600">
+                    <!-- Simple chat bubble icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-3.53-.64L3 20l.7-2.8A7.98 7.98 0 013 12C3 7.582 7.03 4 12 4s9 3.582 9 8z" />
+                    </svg>
+                </button>
+
+                <!-- Main agenda table (full width) -->
+                <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-200 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="p-2 border">Title</th>
+                                    <th class="p-2 border">Start Time</th>
+                                    <th class="p-2 border">End Time</th>
+                                    <th class="p-2 border">Location</th>
+                                    <th class="p-2 border">Speaker</th>
+                                    <th class="p-2 border">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in sessions %}
+                                <tr>
+                                    <td class="p-2 border">
+                                        <input type="text" name="session-{{ session.id }}-title" value="{{ session.title }}" class="w-full p-1 border rounded" />
+                                    </td>
+                                    <td class="p-2 border">
+                                        <input type="datetime-local" name="session-{{ session.id }}-start_time" value="{{ session.start_time|date:'Y-m-d\\TH:i' }}" class="w-full p-1 border rounded" />
+                                    </td>
+                                    <td class="p-2 border">
+                                        <input type="datetime-local" name="session-{{ session.id }}-end_time" value="{{ session.end_time|date:'Y-m-d\\TH:i' }}" class="w-full p-1 border rounded" />
+                                    </td>
+                                    <td class="p-2 border">
+                                        <input type="text" name="session-{{ session.id }}-location" value="{{ session.location }}" class="w-full p-1 border rounded" />
+                                    </td>
+                                    <td class="p-2 border">
+                                        <input type="text" name="session-{{ session.id }}-speaker" value="{{ session.speaker }}" class="w-full p-1 border rounded" />
+                                    </td>
+                                    <td class="p-2 border">
+                                        <textarea name="session-{{ session.id }}-description" rows="2" class="w-full p-1 border rounded">{{ session.description }}</textarea>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="p-4 text-center text-gray-500">No sessions yet. Use the assistant or add rows manually.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                <!-- Slide-over assistant panel (initially hidden) -->
+                <div id="agenda-assistant-panel" class="hidden fixed inset-0 z-10 flex items-end justify-end lg:items-center bg-black/20">
+                    <div class="bg-white w-full max-w-xl m-4 rounded-2xl shadow-xl flex flex-col max-h-[80vh]">
+                        <div class="flex items-center justify-between px-4 py-3 border-b">
+                            <h3 class="text-sm font-semibold">Agenda Assistant</h3>
+                            <button type="button" id="agenda-assistant-close" class="text-gray-500 hover:text-gray-700 text-xl leading-none">×</button>
+                        </div>
+                        <div class="px-4 py-3 flex-1 flex flex-col">
+                            <p class="text-xs text-gray-600 mb-3">
+                                Describe the kind of agenda you want. For example:
+                                "Create a 5-hour marathon schedule with warm up, race, and awards".
+                            </p>
+                            <textarea name="ai_prompt" rows="10" class="w-full p-3 border rounded text-sm mb-3 min-h-[200px]" placeholder="Describe the agenda you want the assistant to create..."></textarea>
+                            <button type="submit" name="action" value="generate_ai" class="w-full px-4 py-2 rounded bg-primary text-white text-sm hover:bg-orange-600 mt-auto">Ask Assistant to generate agenda</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-end space-x-3">
+                <a href="{% url 'event-dashboard' %}" class="px-4 py-2 rounded bg-gray-200 text-gray-800 hover:bg-gray-300">Back to dashboard</a>
+                <button type="submit" name="action" value="save" class="px-6 py-2 rounded bg-primary text-white hover:bg-orange-600">Save agenda</button>
+            </div>
+        </form>
+
+        <script>
+        (function() {
+            var toggleBtn = document.getElementById('agenda-assistant-toggle');
+            var panel = document.getElementById('agenda-assistant-panel');
+            var closeBtn = document.getElementById('agenda-assistant-close');
+            if (!toggleBtn || !panel) return;
+
+            toggleBtn.addEventListener('click', function() {
+                panel.classList.toggle('hidden');
+            });
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    panel.classList.add('hidden');
+                });
+            }
+        })();
+        </script>
+    </div>
+</div>
+{% endblock %}

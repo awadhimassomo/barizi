@@ -10,13 +10,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
-    <!-- Header -->
-    <header class="relative h-64 bg-cover bg-center text-white flex flex-col justify-center items-center" style="background-image: url('{% block header_image %}/static/images/default-bg.jpg{% endblock %}');">
-        <div class="bg-black bg-opacity-50 w-full h-full flex flex-col justify-center items-center">
-            <h1 class="text-4xl font-extrabold drop-shadow-lg">{% block header_title %}Welcome to Barizi{% endblock %}</h1>
-            <p class="mt-2 text-md max-w-lg text-center">{% block header_subtitle %}Your gateway to cultural insights and experiences.{% endblock %}</p>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="/" class="text-xl font-extrabold text-gray-900 tracking-tight">Barizi</a>
+                    <div class="hidden md:flex space-x-6 text-sm font-medium">
+                        <a href="/" class="text-gray-700 hover:text-black">Home</a>
+                        <a href="/tours/" class="text-gray-700 hover:text-black">Tours</a>
+                        <a href="/events/" class="text-gray-700 hover:text-black">Events</a>
+                        <a href="/cruises/" class="text-gray-700 hover:text-black">Cruises</a>
+                        <a href="/contact/" class="text-gray-700 hover:text-black">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="/login/" class="text-sm text-gray-700 hover:text-black">Log in</a>
+                    <a href="/signup/" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-full shadow-sm text-white bg-black hover:bg-gray-900">Sign up</a>
+                </div>
+            </div>
         </div>
+    </nav>
+
+    {% block header %}
+    <!-- Header: full-bleed background image, no overlay text -->
+    <header class="relative h-64 bg-cover bg-center" style="background-image: url('{% block header_image %}/static/images/default-bg.jpg{% endblock %}');">
     </header>
+    {% endblock %}
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-12">

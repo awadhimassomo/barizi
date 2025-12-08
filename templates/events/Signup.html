@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="flex min-h-screen items-center justify-center px-4">
-    <div class="flex w-full max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+<div class="flex min-h-screen items-center  ">
+    <div class="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
        
        
         <!-- Left Side: Registration Form -->
@@ -10,8 +10,7 @@
             <h2 class="text-3xl font-bold text-center text-gray-800">Create Your Account</h2>
             <p class="text-center text-gray-500 mb-4">Join and start your journey</p>
 
-            <form method="POST" class="space-y-5">
-                {% csrf_token %}
+                 <!-- Account type toggle after Full Name -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Account type</label>
                     <div class="flex mb-3 bg-gray-100 rounded-full p-1">
@@ -22,6 +21,15 @@
                             Business account
                         </button>
                     </div>
+
+            <form method="POST" class="space-y-5">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-gray-700 font-semibold">Full Name</label>
+                    <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter your full name" required>
+                </div>
+
+           
                     <!-- Business role selector (for operator / planner / vendor / customer) -->
                     <div id="roleSelectWrapper" class="hidden mt-3 text-left">
                         <label class="block text-gray-700 text-sm mb-1">Business role</label>
@@ -29,17 +37,10 @@
                             <option value="operator">Operator</option>
                             <option value="planner">Planner</option>
                             <option value="vendor">Vendor</option>
-
+                            <option value="customer">Customer</option>
                         </select>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-gray-700 font-semibold">Full Name</label>
-                    <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter your full name" required>
-                </div>
-
-                <!-- Account type toggle after Full Name -->
-          
 
                 <div>
                     <label class="block text-gray-700 font-semibold">Email</label>
@@ -51,23 +52,7 @@
                     <div class="relative">
                         <input type="password" name="password" id="registerPasswordField" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300" placeholder="Create a password" required>
                         <button type="button" id="toggleRegisterPassword" class="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-gray-700 font-semibold">Confirm Password</label>
-                    <div class="relative">
-                        <input type="password" name="confirm_password" id="registerConfirmPasswordField" class="w-full p-3 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300" placeholder="Re-enter your password" required>
-                        <button type="button" id="toggleRegisterConfirmPassword" class="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-                                <circle cx="12" cy="12" r="3" />
-                            </svg>
+                            <i class="bi bi-eye"></i>
                         </button>
                     </div>
                 </div>
@@ -96,36 +81,17 @@
 
 <!-- Password Toggle Script -->
 <script>
-    const passwordToggle = document.getElementById("toggleRegisterPassword");
-    const passwordField = document.getElementById("registerPasswordField");
-    const confirmPasswordToggle = document.getElementById("toggleRegisterConfirmPassword");
-    const confirmPasswordField = document.getElementById("registerConfirmPasswordField");
-
-    if (passwordToggle && passwordField) {
-        passwordToggle.addEventListener("click", function () {
-            let icon = this.querySelector("i");
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                icon.classList.replace("bi-eye", "bi-eye-slash");
-            } else {
-                passwordField.type = "password";
-                icon.classList.replace("bi-eye-slash", "bi-eye");
-            }
-        });
-    }
-
-    if (confirmPasswordToggle && confirmPasswordField) {
-        confirmPasswordToggle.addEventListener("click", function () {
-            let icon = this.querySelector("i");
-            if (confirmPasswordField.type === "password") {
-                confirmPasswordField.type = "text";
-                icon.classList.replace("bi-eye", "bi-eye-slash");
-            } else {
-                confirmPasswordField.type = "password";
-                icon.classList.replace("bi-eye-slash", "bi-eye");
-            }
-        });
-    }
+    document.getElementById("toggleRegisterPassword").addEventListener("click", function () {
+        let passwordField = document.getElementById("registerPasswordField");
+        let icon = this.querySelector("i");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.replace("bi-eye", "bi-eye-slash");
+        } else {
+            passwordField.type = "password";
+            icon.classList.replace("bi-eye-slash", "bi-eye");
+        }
+    });
 
     // Role / account-type toggle (Alibaba-style)
     const customerTab = document.getElementById("customerTab");

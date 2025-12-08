@@ -1,5 +1,15 @@
 from django.contrib import admin
-from .models import TourPackage, Itinerary
+from .models import (
+    Vendor,
+    TourPackage,
+    Itinerary,
+    Review,
+    Booking,
+    Trip,
+    Event,
+    Attendee,
+    EventSession,
+)
 
 class ItineraryInline(admin.TabularInline):
     model = Itinerary
@@ -11,5 +21,12 @@ class TourPackageAdmin(admin.ModelAdmin):
     search_fields = ('title', 'location', 'operator__username')
     inlines = [ItineraryInline]
 
+admin.site.register(Vendor)
 admin.site.register(TourPackage, TourPackageAdmin)
 admin.site.register(Itinerary)
+admin.site.register(Review)
+admin.site.register(Booking)
+admin.site.register(Trip)
+admin.site.register(Event)
+admin.site.register(Attendee)
+admin.site.register(EventSession)

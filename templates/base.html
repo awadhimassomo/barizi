@@ -43,53 +43,67 @@
             <!-- Event Planner Links in Separate Div -->
             {% if user.role == 'planner' or user.role == 'admin' %}
             <div class="mt-12">
-               
-                <ul class="space-y-3 text-left">
+                <ul class="space-y-4 text-left">
                     <li>
-                        <a href="{% url 'event-dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <a href="{% url 'event-dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                             <i class="fas fa-calendar"></i> <span>Event Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'create-event' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <a href="{% url 'create-event' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                             <i class="fas fa-plus"></i> <span>Create Event</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'attendee-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                        <a href="{% url 'my-events' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
+                            <i class="fas fa-list"></i> <span>My Events</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'exhibitors_overview' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
+                            <i class="fas fa-store"></i> <span>Exhibitors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'attendee-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                             <i class="fas fa-users"></i> <span>Attendees</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
+                            <i class="fas fa-handshake"></i> <span>Match with sponsors</span>
                         </a>
                     </li>
                 </ul>
             </div>
             {% endif %}
 
-            <ul class="space-y-4 mt-6">
+            <ul class="space-y-5 mt-8">
                 <!-- Operator Specific Links -->
                 {% if user.role == 'operator' or user.role == 'admin' %}
                 <li>
-                    <a href="{% url 'dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'dashboard' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-chart-bar"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'tour-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'tour-list' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-map"></i> <span>Tours</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-hotel"></i> <span>Costing</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'operator_booking_list' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'operator_booking_list' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-calendar-alt"></i> <span>Bookings</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'vendorlist' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-hotel"></i> <span>Vendors</span>
                     </a>
                 </li>
@@ -98,7 +112,7 @@
                 <!-- Admin Only Link -->
                 {% if user.role == 'admin' %}
                 <li>
-                    <a href="{% url 'user-management' %}" class="flex items-center space-x-3 hover:text-sidebarHover">
+                    <a href="{% url 'user-management' %}" class="flex items-center space-x-3 hover:text-sidebarHover px-2 py-2 rounded-md transition-colors">
                         <i class="fas fa-user-shield"></i> <span>User Management</span>
                     </a>
                 </li>
@@ -122,7 +136,7 @@
     {% endif %}
 
     <!-- Main Content -->
-    <div class="{% if request.path != '/auth/login/' and request.path != '/auth/register/' %}ml-72{% endif %} p-12 transition-all">
+    <div class="{% if request.path != '/auth/login/' and request.path != '/auth/registerView/' %}ml-72{% endif %} p-12 transition-all">
         {% block content %}{% endblock %}
     </div>
 

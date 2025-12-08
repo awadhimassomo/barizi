@@ -35,7 +35,10 @@
                     <div class="relative">
                         <input type="password" name="password" id="passwordField" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter your password" required>
                         <button type="button" id="togglePassword" class="absolute inset-y-0 right-3 flex items-center text-gray-500">
-                            <i class="bi bi-eye"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -69,16 +72,18 @@
 
 <!-- Password Toggle Script -->
 <script>
-    document.getElementById("togglePassword").addEventListener("click", function() {
-        let passwordField = document.getElementById("passwordField");
-        let icon = this.querySelector("i");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.replace("bi-eye", "bi-eye-slash");
-        } else {
-            passwordField.type = "password";
-            icon.classList.replace("bi-eye-slash", "bi-eye");
-        }
-    });
+    (function () {
+        const toggle = document.getElementById("togglePassword");
+        const field = document.getElementById("passwordField");
+        if (!toggle || !field) return;
+
+        toggle.addEventListener("click", function () {
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        });
+    })();
 </script>
 {% endblock %}

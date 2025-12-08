@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 p-6">
+    <div class="container mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">My Events</h2>
+            <a href="{% url 'create-event' %}" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+                + Create New Event
+            </a>
+        </div>
+
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-3 rounded text-white {% if message.tags == 'success' %}bg-primary{% elif message.tags == 'error' %}bg-red-500{% else %}bg-secondary{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            {% if events %}
+                <table class="w-full border-collapse border border-gray-200 text-sm">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-3 border">Title</th>
+                            <th class="p-3 border">Category</th>
+                            <th class="p-3 border">Date</th>
+                            <th class="p-3 border">City</th>
+                            <th class="p-3 border">Status</th>
+                            <th class="p-3 border">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr class="text-center">
+                            <td class="p-2 border text-left">{{ event.title }}</td>
+                            <td class="p-2 border">{{ event.get_category_display }}</td>
+                            <td class="p-2 border">{{ event.date }}</td>
+                            <td class="p-2 border">{{ event.city }}</td>
+                            <td class="p-2 border">
+                                <span class="px-2 py-1 rounded-full text-white
+                                    {% if event.status == 'upcoming' %}bg-primary
+                                    {% elif event.status == 'ongoing' %}bg-secondary
+                                    {% elif event.status == 'completed' %}bg-gray-700
+                                    {% else %}bg-red-500{% endif %}">
+                                    {{ event.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="p-2 border space-x-2">
+                                <a href="{% url 'edit_event' event.id %}" class="bg-secondary text-white px-3 py-1 rounded text-xs hover:bg-black">Edit</a>
+                                <a href="{% url 'edit-event-agenda' event.id %}" class="bg-primary text-white px-3 py-1 rounded text-xs hover:bg-orange-600">Agenda</a>
+                                {% if event.qr_code %}
+                                    <a href="{{ event.qr_code.url }}" target="_blank" class="bg-gray-700 text-white px-3 py-1 rounded text-xs">QR</a>
+                                {% endif %}
+                                <a href="{% url 'upload-invitees' event.id %}" class="bg-secondary text-white px-3 py-1 rounded text-xs hover:bg-black">Upload invitees</a>
+                                <a href="{% url 'delete_event' event.id %}" class="bg-red-500 text-white px-3 py-1 rounded text-xs">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-gray-600 text-center">You havent created any events yet. Use the button above to create your first event.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

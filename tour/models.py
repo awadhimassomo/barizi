@@ -107,7 +107,8 @@ class Trip(models.Model):
 
     def __str__(self):
         return f"{self.trip_name} by {self.planner.full_name}"
-    
+
+
 from django.db import models
 from django.utils.text import slugify
 
@@ -134,6 +135,7 @@ class Event(models.Model):
     ]
 
     # Basic Details
+    planner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='planned_events', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
@@ -164,6 +166,10 @@ class Event(models.Model):
     ticket_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     registration_link = models.URLField(blank=True, null=True)
 
+    # Invitations & QR
+    join_url = models.URLField(blank=True, null=True, help_text="Public URL used for invites/QR")
+    qr_code = models.ImageField(upload_to='event_qr/', blank=True, null=True)
+
     # Event Status
     status = models.CharField(max_length=20, choices=EVENT_STATUSES, default='upcoming')
 
@@ -172,12 +178,23 @@ class Event(models.Model):
     meta_description = models.CharField(max_length=255, blank=True, null=True)
 
     # Additional Details
+    has_exhibitors = models.BooleanField(default=False)
     extra_details = models.JSONField(blank=True, null=True, help_text="For storing custom event data")
 
     def save(self, *args, **kwargs):
-        # Auto-generate slug from title
+        # Auto-generate slug from title and ensure uniqueness
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 2
+
+            # Ensure the slug is unique
+            from .models import Event  # local import to avoid circulars at module load
+            while Event.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
 
         # Ensure 'is_hybrid' consistency
         if self.is_hybrid:
@@ -200,4 +217,46 @@ class Attendee(models.Model):
         return f"{self.name} - {self.event.title}"
 
 
+class EventSession(models.Model):
+    event = models.ForeignKey(Event, related_name='sessions', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    location = models.CharField(max_length=255, blank=True, null=True)
+    speaker = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.title} ({self.event.title})"
+
+
+class ExhibitorSpace(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="exhibitor_spaces")
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_slots = models.IntegerField(default=1)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.event.title}"
+
+
+class ExhibitorBooking(models.Model):
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("confirmed", "Confirmed"),
+        ("cancelled", "Cancelled"),
+    ]
+
+    space = models.ForeignKey(ExhibitorSpace, on_delete=models.CASCADE, related_name="bookings")
+    exhibitor_name = models.CharField(max_length=255)
+    business_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.business_name} - {self.space.name} ({self.status})"
 

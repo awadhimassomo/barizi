@@ -74,80 +74,76 @@
             </div>
         </div>
 
-        <nav
-            class="glass-nav fixed top-6 left-1/2 transform -translate-x-1/2 flex justify-between items-center px-8 py-4 rounded-full w-[90%] shadow-2xl z-50 transition-all duration-300">
-            <div class="flex items-center space-x-3">
-                <svg class="h-12 w-auto" viewBox="0 0 792 612" xmlns="http://www.w3.org/2000/svg">
-                    <style type="text/css">
-                        .st0 {
-                            fill: #F1F3F7;
-                        }
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden fixed top-6 right-6 z-50 p-2 rounded-full bg-white/10 backdrop-blur-sm">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
 
-                        .st1 {
-                            fill: #FFFFFF;
-                        }
-
-                        .st2 {
-                            fill: #F7F8F9;
-                        }
-
-                        .st3 {
-                            fill: #F0EFEF;
-                        }
-                    </style>
-                    <g>
-                        <path class="st0"
-                            d="M492.26,179.89c-8.95,4.7-22.43,13.25-34.74,27.92c-8.34,9.94-13.64,19.7-17,27.28c-8.25,21.14-27.81,35.08-48.8,35.14c-26.76,0.08-51.75-22.42-51.75-51.75c0-28.58,23.17-51.75,51.75-51.75c13.43,0,25.67,5.12,34.87,13.52c4.68,2.06,10.25,3.98,16.65,5.23C464.83,189.7,483.01,183.76,492.26,179.89" />
-                        <path class="st1"
-                            d="M589.12,144.42c-2.45-0.93-5.12-1.08-7.66-0.43l-16.63,3.12c-0.43,0.11-0.88,0.03-1.25-0.21l-24.71-13.07c-1.37-0.91-3.03,0.66-2.2,2.08l10.77,16.07c0.04,0.07,0.07,0.14,0.1,0.21l5.68-2.03l-11.87,7.45l-8.84,5.6c-0.37,0.23-0.82,0.3-1.25,0.19l-9.59-2.64c-1.45-0.4-2.57,1.29-1.63,2.47l5.72,6.66l67.21-22.05C592.33,145.93,591.19,145.21,589.12,144.42" />
-                        <path class="st2"
-                            d="M470.12,207.57c-11.66,11.39-19.61,22.91-24.89,32.02c-8.67,20.85-29.26,35.52-53.25,35.52c-31.85,0-57.67-25.82-57.67-57.67s25.82-57.67,57.67-57.67c16.71,0,31.76,7.11,42.29,18.47c7.65,1.22,16,2.12,24.96,2.49c-3.09-4.94-6.7-9.55-10.76-13.76c-14.72-15.23-35.41-25.04-59.31-25.04c-60.71,0-100.72,63.26-74.69,118.11l74.69,157.43l74.69-157.43C472.12,242.65,473.73,224.39,470.12,207.57" />
-                        <path class="st3"
-                            d="M401.58,447.26c0,6.86-5.56,12.42-12.42,12.42c-6.86,0-12.42-5.56-12.42-12.42c0-6.86,5.56-12.42,12.42-12.42C396.02,434.84,401.58,440.4,401.58,447.26" />
-                    </g>
-                </svg>
-                <span class="text-white text-2xl font-bold tracking-wide">Barizi</span>
+        <!-- Main Navigation -->
+        <nav class="glass-nav fixed top-0 left-0 w-full md:top-6 md:left-1/2 md:transform md:-translate-x-1/2 flex flex-col md:flex-row justify-between items-center p-4 md:px-8 md:py-4 rounded-none md:rounded-full w-full md:w-[90%] shadow-2xl z-40 transition-all duration-300" id="main-nav">
+            <div class="flex justify-between w-full md:w-auto items-center">
+                <div class="flex items-center space-x-3">
+                    <svg class="h-10 w-auto md:h-12" viewBox="0 0 792 612" xmlns="http://www.w3.org/2000/svg">
+                        <style type="text/css">
+                            .st0 { fill: #F1F3F7; }
+                            .st1 { fill: #FFFFFF; }
+                            .st2 { fill: #F7F8F9; }
+                            .st3 { fill: #F0EFEF; }
+                        </style>
+                        <g>
+                            <path class="st0" d="M492.26,179.89c-8.95,4.7-22.43,13.25-34.74,27.92c-8.34,9.94-13.64,19.7-17,27.28c-8.25,21.14-27.81,35.08-48.8,35.14c-26.76,0.08-51.75-22.42-51.75-51.75c0-28.58,23.17-51.75,51.75-51.75c13.43,0,25.67,5.12,34.87,13.52c4.68,2.06,10.25,3.98,16.65,5.23C464.83,189.7,483.01,183.76,492.26,179.89" />
+                            <path class="st1" d="M589.12,144.42c-2.45-0.93-5.12-1.08-7.66-0.43l-16.63,3.12c-0.43,0.11-0.88,0.03-1.25-0.21l-24.71-13.07c-1.37-0.91-3.03,0.66-2.2,2.08l10.77,16.07c0.04,0.07,0.07,0.14,0.1,0.21l5.68-2.03l-11.87,7.45l-8.84,5.6c-0.37,0.23-0.82,0.3-1.25,0.19l-9.59-2.64c-1.45-0.4-2.57,1.29-1.63,2.47l5.72,6.66l67.21-22.05C592.33,145.93,591.19,145.21,589.12,144.42" />
+                            <path class="st2" d="M470.12,207.57c-11.66,11.39-19.61,22.91-24.89,32.02c-8.67,20.85-29.26,35.52-53.25,35.52c-31.85,0-57.67-25.82-57.67-57.67s25.82-57.67,57.67-57.67c16.71,0,31.76,7.11,42.29,18.47c7.65,1.22,16,2.12,24.96,2.49c-3.09-4.94-6.7-9.55-10.76-13.76c-14.72-15.23-35.41-25.04-59.31-25.04c-60.71,0-100.72,63.26-74.69,118.11l74.69,157.43l74.69-157.43C472.12,242.65,473.73,224.39,470.12,207.57" />
+                            <path class="st3" d="M401.58,447.26c0,6.86-5.56,12.42-12.42,12.42c-6.86,0-12.42-5.56-12.42-12.42c0-6.86,5.56-12.42,12.42-12.42C396.02,434.84,401.58,440.4,401.58,447.26" />
+                        </g>
+                    </svg>
+                    <span class="text-white text-xl md:text-2xl font-bold tracking-wide">Barizi</span>
+                </div>
             </div>
-            <ul class="hidden md:flex space-x-2 text-white font-medium">
-                <li><a href="#home"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Home</a>
-                </li>
-                <li><a href="#tours"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Tours</a>
-                </li>
-                <li><a href="#events"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Events</a>
-                </li>
-                <li><a href="#hospitality"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Hospitality</a>
-                </li>
 
-                <li><a href="#social"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Social
-                        Impact</a></li>
+            <!-- Mobile Menu -->
+            <div class="hidden md:hidden w-full mt-4" id="mobile-menu">
+                <div class="flex flex-col space-y-2">
+                    <a href="#home" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Home</a>
+                    <a href="#tours" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Tours</a>
+                    <a href="#events" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Events</a>
+                    <a href="#hospitality" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Hospitality</a>
+                    <a href="#social" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Social Impact</a>
+                    <a href="#rentals" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Rentals</a>
+                    <a href="#CurioShop" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Curio Shop</a>
+                    <a href="#Reviews" class="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">Reviews</a>
+                    <a href="auth/login" class="block px-4 py-3 text-center bg-white text-black rounded-lg font-semibold mt-2">
+                        Create Experience →
+                    </a>
+                </div>
+            </div>
 
-
-                <li><a href="#rentals"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Rentals</a>
-                </li>
-
-                <li><a href="#CurioShop"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Curio
-                        Shop</a></li>
-                <li><a href="#Reviews"
-                        class="nav-item px-4 py-2 rounded-full transition-all duration-300 hover:bg-white/10">Reviews</a>
-                </li>
-
-            </ul>
-            <a href='auth/login'
-                class="bg-white text-black px-6 py-2 rounded-full font-semibold hover:bg-gray-200 transition">Create
-                Experience →</a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-2">
+                <ul class="flex flex-wrap justify-center gap-1 text-white font-medium">
+                    <li><a href="#home" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Home</a></li>
+                    <li><a href="#tours" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Tours</a></li>
+                    <li><a href="#events" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Events</a></li>
+                    <li><a href="#hospitality" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Hospitality</a></li>
+                    <li><a href="#social" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Social Impact</a></li>
+                    <li><a href="#rentals" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Rentals</a></li>
+                    <li><a href="#CurioShop" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Curio Shop</a></li>
+                    <li><a href="#Reviews" class="nav-item px-3 py-2 md:px-4 md:py-2 rounded-full transition-all duration-300 hover:bg-white/10 text-sm md:text-base">Reviews</a></li>
+                </ul>
+                <a href='auth/login' class="hidden md:block bg-white text-black px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-gray-200 transition text-sm md:text-base whitespace-nowrap ml-2">
+                    Create Experience →
+                </a>
+            </div>
+        </nav>
         </nav>
 
-        <div class="text-center relative z-20 flex flex-col items-center">
-            <h1 class="text-7xl font-extrabold drop-shadow-lg">DISCOVER YOUR NEXT <span class="text-blue-400"
-                    id="dynamic-text">TOUR</span></h1>
-            <p class="mt-4 text-lg max-w-xl text-center">Find the best tours, events, workshops, and experiences near
+        <div class="text-center relative z-20 flex flex-col items-center px-4 sm:px-6">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold drop-shadow-lg leading-tight">
+                DISCOVER YOUR NEXT <span class="text-blue-400 block sm:inline" id="dynamic-text">ADVENTURE</span>
+            </h1>
+            <p class="mt-4 text-base sm:text-lg max-w-xl text-center">Find the best tours, events, workshops, and experiences near
                 you.</p>
         </div>
     </header>
@@ -157,195 +153,285 @@
 
 
     <!-- Featured Tours -->
-    <section id="tours" class="py-16 text-center">
-        <h2 class="text-4xl font-bold">Adventure Awaits</h2>
-
-        <!-- Location Filter -->
-        <div class="flex flex-wrap justify-center gap-2 mt-6 px-10">
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="all">All Locations</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="serengeti">Serengeti</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="zanzibar">Zanzibar</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="ngorongoro">Ngorongoro Crater</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="kilimanjaro">Mount Kilimanjaro</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="ruaha">Ruaha National Park</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="mafia">Mafia Island</button>
-            <button class="location-chip p-2 px-4 border rounded-full bg-black text-white hover:bg-gray-900"
-                data-location="gombe">Gombe National Park</button>
-        </div>
-
-        <p class="text-gray-600 mt-2">Discover thrilling adventures across Tanzania.</p>
-
-        <!-- Scrollable Tour List (Scrollbar Hidden) -->
-        <div class="relative mt-8 px-10">
-            <div id="tour-list"
-                class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-
-                <a href="{% url 'marketplace' %}"
-                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-                    <img src="/static/images/serengeti.jpg" class="w-full h-64 object-cover rounded-3xl">
-                    <h3 class="text-2xl font-bold mt-4 text-black">Serengeti Safari</h3>
-                    <p class="text-gray-700">Witness the Great Migration in the world-famous Serengeti.</p>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                        <li><strong>⭐ 4.9</strong></li>
-                        <li><strong>5 Days, 4 Nights</strong></li>
-                        <li>Game drives & luxury camping included.</li>
-                        <li>Travel Dates: June – September 2025</li>
-                        <li>Booking Deadline: Book by 31 May 2025</li>
-                    </ul>
-                </a>
-
-                <a href="{% url 'marketplace' %}"
-                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-                    <img src="/static/images/zanzibar.jpg" class="w-full h-64 object-cover rounded-3xl">
-                    <h3 class="text-2xl font-bold mt-4 text-black">Zanzibar Beach Retreat</h3>
-                    <p class="text-gray-700">Relax on Zanzibar’s pristine beaches with crystal-clear waters.</p>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                        <li><strong>⭐ 4.8</strong></li>
-                        <li><strong>6 Days, 5 Nights</strong></li>
-                        <li>Includes Stone Town tour & snorkeling.</li>
-                        <li>Travel Dates: Year-round availability</li>
-                        <li>Booking Deadline: Open</li>
-                    </ul>
-                </a>
-
-                <a href="{% url 'marketplace' %}"
-                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-                    <img src="/static/images/ngorongoro.jpg" class="w-full h-64 object-cover rounded-3xl">
-                    <h3 class="text-2xl font-bold mt-4 text-black">Ngorongoro Crater Tour</h3>
-                    <p class="text-gray-700">Explore the world’s largest unbroken caldera filled with wildlife.</p>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                        <li><strong>⭐ 4.7</strong></li>
-                        <li><strong>3 Days, 2 Nights</strong></li>
-                        <li>Safari lodge stay & game drives included.</li>
-                        <li>Travel Dates: June – October 2025</li>
-                        <li>Booking Deadline: Book by 30 April 2025</li>
-                    </ul>
-                </a>
-
-                <a href="{% url 'marketplace' %}"
-                    class="min-w-[300px] flex-shrink-0 snap-center hover:scale-105 transition-transform">
-                    <img src="/static/images/kilimanjaro.jpg" class="w-full h-64 object-cover rounded-3xl">
-                    <h3 class="text-2xl font-bold mt-4 text-black">Climb Mount Kilimanjaro</h3>
-                    <p class="text-gray-700">Conquer Africa’s highest peak with expert guides.</p>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                        <li><strong>⭐ 4.9</strong></li>
-                        <li><strong>8 Days, 7 Nights</strong></li>
-                        <li>Full climb package with meals & porters.</li>
-                        <li>Travel Dates: January – March 2025</li>
-                        <li>Booking Deadline: Book by 15 December 2024</li>
-                    </ul>
-                </a>
-
+    <section id="tours" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="text-blue-600 font-semibold">ADVENTURE COLLECTION</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-2">Popular Destinations</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
             </div>
 
-            <!-- More Tours Button -->
-            <div class="mt-6 flex justify-center">
-                <a href="{% url 'marketplace' %}"
-                    class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
-                    More Tours
-                </a>
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12 px-4">
+                <button class="category-filter px-6 py-2 rounded-full font-medium transition-all duration-300" data-category="all">
+                    All Tours
+                </button>
+                <button class="category-filter px-6 py-2 rounded-full font-medium bg-black text-white hover:bg-gray-800 transition-colors" data-category="safari">
+                    <i class="fas fa-camera-retro mr-2"></i> Safari
+                </button>
+                <button class="category-filter px-6 py-2 rounded-full font-medium bg-white text-black border border-gray-200 hover:bg-gray-50 transition-colors" data-category="beach">
+                    <i class="fas fa-umbrella-beach mr-2"></i> Beach
+                </button>
+                <button class="category-filter px-6 py-2 rounded-full font-medium bg-white text-black border border-gray-200 hover:bg-gray-50 transition-colors" data-category="trekking">
+                    <i class="fas fa-mountain mr-2"></i> Trekking
+                </button>
+                <button class="category-filter px-6 py-2 rounded-full font-medium bg-white text-black border border-gray-200 hover:bg-gray-50 transition-colors" data-category="wildlife">
+                    <i class="fas fa-paw mr-2"></i> Wildlife
+                </button>
+            </div>
+
+            <!-- Tours Grid -->
+            <div class="relative">
+                <div id="tour-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4">
+
+                    <!-- Tour Card 2 -->
+                    <div class="tour-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2" data-category="beach">
+                        <div class="relative overflow-hidden h-56">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1527631746610-b32900c9cfb2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                                alt="Zanzibar Beach Escape" 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="bg-black text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                        Beach
+                                    </span>
+                                    <div class="flex items-center bg-white text-black border border-gray-200 text-xs font-medium px-3 py-1 rounded-full">
+                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                        <span>Zanzibar</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-yellow-300 transition-colors">
+                                    Zanzibar Beach Escape
+                                </h3>
+                            </div>
+                            <div class="absolute top-3 right-3 z-20">
+                                <span class="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-star mr-1"></i> 4.6
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 mb-4">Relax on the pristine white-sand beaches of Zanzibar with crystal clear waters and luxury beachfront resorts.</p>
+                            <div class="border-t border-gray-100 pt-4">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-2xl font-bold text-black">$950</span>
+                                        <span class="text-sm text-gray-600"> / person</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i>
+                                        <span>7 days</span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'marketplace' %}" class="mt-4 w-full inline-flex justify-center items-center px-4 py-2.5 border border-black text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors">
+                                    Book Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour Card 3 -->
+                    <div class="tour-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2" data-category="trekking">
+                        <div class="relative overflow-hidden h-56">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1516026672322-bf52d3ab0f32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                                alt="Kilimanjaro Trek" 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                        Trekking
+                                    </span>
+                                    <div class="flex items-center bg-black/60 text-white text-xs font-medium px-2 py-1 rounded-full">
+                                        <i class="fas fa-mountain mr-1"></i>
+                                        <span>Kilimanjaro</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-yellow-300 transition-colors">
+                                    Kilimanjaro Trek
+                                </h3>
+                            </div>
+                            <div class="absolute top-3 right-3 z-20">
+                                <span class="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-star mr-1"></i> 4.9
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 mb-4">Conquer Africa's highest peak with our expert guides and experience breathtaking views from the Roof of Africa.</p>
+                            <div class="border-t border-gray-100 pt-4">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-2xl font-bold text-gray-900">$2,500</span>
+                                        <span class="text-sm text-gray-500"> / person</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i>
+                                        <span>8 days</span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'marketplace' %}" class="mt-4 w-full inline-flex justify-center items-center px-4 py-2.5 border border-black text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors">
+                                    Book Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour Card 4 -->
+                    <div class="tour-card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2" data-category="wildlife">
+                        <div class="relative overflow-hidden h-56">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1580327345471-0054659a06fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                                alt="Ngorongoro Crater" 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 z-20">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                                        Wildlife
+                                    </span>
+                                    <div class="flex items-center bg-black/60 text-white text-xs font-medium px-2 py-1 rounded-full">
+                                        <i class="fas fa-paw mr-1"></i>
+                                        <span>Ngorongoro</span>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-yellow-300 transition-colors">
+                                    Ngorongoro Crater
+                                </h3>
+                            </div>
+                            <div class="absolute top-3 right-3 z-20">
+                                <span class="bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-star mr-1"></i> 4.7
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-gray-600 mb-4">Witness the Big Five in the world's largest inactive volcanic caldera, a UNESCO World Heritage Site teeming with wildlife.</p>
+                            <div class="border-t border-gray-100 pt-4">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="text-2xl font-bold text-gray-900">$1,800</span>
+                                        <span class="text-sm text-gray-500"> / person</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <i class="far fa-clock mr-1"></i>
+                                        <span>4 days</span>
+                                    </div>
+                                </div>
+                                <a href="{% url 'marketplace' %}" class="mt-4 w-full inline-flex justify-center items-center px-4 py-2.5 border border-black text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors">
+                                    Book Now
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-16 text-center bg-black rounded-2xl p-12 text-white">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready for Your Next Adventure?</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">Join thousands of travelers who have experienced the adventure of a lifetime with us.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="/tours" class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-full text-white hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+                        Explore All Tours
+                    </a>
+                    <a href="#contact" class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-medium rounded-full text-white hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+                        Contact Us
+                    </a>
+                </div>
             </div>
         </div>
     </section>
-
-
 
     <!-- Featured Events -->
-    <section id="events" class="py-16 text-center">
-        <h2 class="text-4xl font-bold">Popular Events</h2>
-        <p class="text-gray-600 mt-2">Discover trending events happening around Tanzania.</p>
+    <section id="events" class="py-10 sm:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center">Upcoming Events</h2>
+            <p class="text-center text-gray-600 mt-2 max-w-2xl mx-auto">Join our exciting events and experiences across Tanzania</p>
 
-        <div class="relative mt-8 px-10">
-            <!-- Event List (Auto-scroll & Mouse Drag Enabled) -->
-            <div id="event-list"
-                class="flex space-x-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4
-            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] text-left cursor-grab active:cursor-grabbing">
-
-                <!-- Zanzibar International Film Festival -->
-                <a href="{% url 'event_detail' event_slug='zanzibar-international-film-festival' %}">
-                    <div
-                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                        <img src="/static/images/ziff.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                        <h3 class="text-xl font-bold mt-4">Zanzibar International Film Festival</h3>
-                        <p class="text-gray-700">Africa’s biggest film & cultural festival.</p>
-                        <p class="text-sm text-gray-500">📍 Zanzibar | 📅 July 2025</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                {% if events %}
+                    {% for event in events %}
+                        <div class="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="relative overflow-hidden h-48">
+                                {% if event.image %}
+                                    <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                {% else %}
+                                    <div class="w-full h-full bg-gray-900 flex items-center justify-center text-white text-lg font-semibold">
+                                        {{ event.title|truncatechars:30 }}
+                                    </div>
+                                {% endif %}
+                                <div class="absolute top-3 right-3 bg-black/80 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                    {{ event.get_category_display|default:"Event" }}
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex flex-wrap items-center text-gray-500 text-xs sm:text-sm">
+                                    <span class="flex items-center mr-3 mb-1 sm:mb-0">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        {{ event.date }}{% if event.time %}, {{ event.time|time:"H:i" }}{% endif %}
+                                    </span>
+                                    {% if event.city or event.venue %}
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            {{ event.venue|default:event.city }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <h3 class="text-lg sm:text-xl font-bold mt-3 text-gray-900 group-hover:text-blue-600 transition-colors">
+                                    {{ event.title }}
+                                </h3>
+                                <p class="text-gray-600 mt-2 text-sm sm:text-base line-clamp-3">
+                                    {{ event.description|truncatechars:120 }}
+                                </p>
+                                <div class="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+                                    <div>
+                                        {% if event.ticket_price %}
+                                            <span class="text-lg font-bold text-gray-900">TZS {{ event.ticket_price }}</span>
+                                            <span class="text-sm text-gray-500"> / person</span>
+                                        {% else %}
+                                            <span class="text-sm font-medium text-green-600">Free entry</span>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{% url 'event_detail' event.slug %}" class="w-full sm:w-auto bg-black text-white px-5 py-2.5 rounded-full text-sm sm:text-base font-medium hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black text-center">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-16">
+                        <p class="text-gray-600 text-lg">No upcoming events yet. Check back soon or create an event from your planner dashboard.</p>
                     </div>
-                </a>
-
-                <!-- Serengeti Wildebeest Migration -->
-                <a href="{% url 'event_detail' event_slug='the-great-wildebeest-migration' %}">
-                    <div
-                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                        <img src="/static/images/migration.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                        <h3 class="text-xl font-bold mt-4">The Great Wildebeest Migration</h3>
-                        <p class="text-gray-700">Watch millions of animals cross the Serengeti.</p>
-                        <p class="text-sm text-gray-500">📍 Serengeti | 📅 July – October 2025</p>
-                    </div>
-                </a>
-
-                <!-- Kilimanjaro Marathon -->
-                <a href="{% url 'event_detail' event_slug='kilimanjaro-marathon' %}">
-                    <div
-                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                        <img src="/static/images/kilimanjaro_marathon.jpg"
-                            class="w-[320px] h-64 object-cover rounded-3xl">
-                        <h3 class="text-xl font-bold mt-4">Kilimanjaro Marathon</h3>
-                        <p class="text-gray-700">Challenge yourself on the slopes of Africa’s highest peak.</p>
-                        <p class="text-sm text-gray-500">📍 Moshi | 📅 February 2025</p>
-                    </div>
-                </a>
-
-                <!-- Sauti za Busara Music Festival -->
-                <a href="{% url 'event_detail' event_slug='sauti-za-busara-festival' %}">
-                    <div
-                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                        <img src="/static/images/sautiza.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                        <h3 class="text-xl font-bold mt-4">Sauti za Busara Festival</h3>
-                        <p class="text-gray-700">Experience Africa’s biggest live music festival.</p>
-                        <p class="text-sm text-gray-500">📍 Zanzibar | 📅 February 2025</p>
-                    </div>
-                </a>
-
-                <!-- Full Moon Party Zanzibar -->
-                <a href="{% url 'event_detail' event_slug='full-moon-party' %}">
-                    <div
-                        class="min-w-[320px] flex-shrink-0 snap-center cursor-pointer hover:shadow-xl transition-shadow bg-white p-4 rounded-3xl">
-                        <img src="/static/images/fullmoon.jpg" class="w-[320px] h-64 object-cover rounded-3xl">
-                        <h3 class="text-xl font-bold mt-4">Full Moon Party</h3>
-                        <p class="text-gray-700">Zanzibar’s biggest beach party under the stars.</p>
-                        <p class="text-sm text-gray-500">📍 Kendwa, Zanzibar | 📅 Monthly</p>
-                    </div>
-                </a>
+                {% endif %}
             </div>
 
-            <!-- More Events Button (Centered) -->
-            <div class="mt-6 flex justify-center">
-                <a href="/events"
-                    class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
-                    More Events
+            <div class="mt-10 text-center">
+                <a href="{% url 'all-events' %}" class="inline-block px-8 py-3 bg-black text-white text-sm sm:text-base font-medium rounded-full shadow-lg hover:bg-gray-800 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    View All Events
                 </a>
             </div>
         </div>
     </section>
 
-
-
     <!-- Hospitality & Travel Services Section -->
-    <section id="hospitality" class="py-16 text-center bg-gray-100 px-10">
-        <h2 class="text-4xl font-bold">Hospitality & Travel Services</h2>
-        <p class="text-gray-600 mt-2">Book flights, hotels, and Airbnbs at the best prices.</p>
+    <section id="hospitality" class="py-12 sm:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center">Hospitality & Travel Services</h2>
+            <p class="text-gray-600 mt-2 text-center max-w-2xl mx-auto">Book flights, hotels, and accommodations at the best prices with our trusted partners.</p>
 
-        <div class="relative mt-8 px-4 md:px-10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-
-                <!-- Flights (Large Feature) -->
+            <div class="mt-8 md:mt-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Flights (Large Feature) -->
                 <a href="{% url 'flights' %}"
                     class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-3xl shadow-lg cursor-pointer">
                     <img src="/static/images/airplane.jpg"
@@ -399,73 +485,123 @@
             </div>
 
             <!-- More Services Button -->
-            <div class="mt-10 flex justify-center">
-                <a href="/services"
-                    class="px-8 py-3 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1">
-                    More Services
+            <div class="mt-10 text-center">
+                <a href="/services" class="inline-flex items-center px-6 sm:px-8 py-3 bg-black text-white text-sm sm:text-base font-medium rounded-full shadow-lg hover:bg-gray-800 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    Explore All Services
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <title>Explore Services</title>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
                 </a>
             </div>
         </div>
     </section>
 
-
     <!-- Social Impact Travel Section -->
-    <section id="social" class="py-16 text-center bg-white px-10">
-        <h2 class="text-4xl font-bold">Social Impact Travel</h2>
-        <p class="text-gray-600 mt-2">Make a difference while exploring the world through impactful travel
-            opportunities.</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 text-left">
+    <section id="social" class="py-12 sm:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Social Impact Travel</h2>
+                <p class="mt-3 text-lg text-gray-600">Make a lasting difference while exploring the world through meaningful travel experiences that benefit local communities and environments.</p>
+            </div>
+            
+            <div class="mt-10 md:mt-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Exchange Programs & Volunteering -->
+                    <div class="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="relative h-56 sm:h-64 overflow-hidden">
+                            <img src="/static/images/exchange-program.jpg" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 alt="Volunteers participating in a community exchange program"
+                                 loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Exchange & Volunteering</h3>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    Popular
+                                </span>
+                            </div>
+                            <p class="mt-3 text-gray-600 text-sm sm:text-base">Immerse yourself in local communities through our cultural exchange and volunteer programs designed to create positive social impact.</p>
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <a href="/exchange" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base transition-colors group-hover:underline">
+                                    Learn More
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <title>Learn about Exchange Programs</title>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Exchange Programs & Volunteering -->
-            <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/exchange-program.jpg" class="w-full h-64 object-cover rounded-3xl">
-                <h3 class="text-2xl font-bold mt-4 text-black">Exchange Programs & Volunteering</h3>
-                <p class="text-gray-700">Join cultural exchange programs or volunteer for meaningful causes worldwide.
-                </p>
-                <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                    <li>Teach, mentor, and share skills abroad.</li>
-                    <li>Support local NGOs and social projects.</li>
-                    <li>Immerse yourself in different cultures.</li>
-                </ul>
+                    <!-- Community-Based Tourism -->
+                    <div class="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="relative h-56 sm:h-64 overflow-hidden">
+                            <img src="/static/images/community-tourism.jpg" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 alt="Local community members welcoming tourists"
+                                 loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Community Tourism</h3>
+                            <p class="mt-3 text-gray-600 text-sm sm:text-base">Experience authentic local life while directly supporting community-led tourism initiatives that benefit residents and preserve cultural heritage.</p>
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <a href="/community-tourism" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base transition-colors group-hover:underline">
+                                    Explore Opportunities
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <title>Explore Community Tourism</title>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conservation Projects -->
+                    <div class="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="relative h-56 sm:h-64 overflow-hidden">
+                            <img src="/static/images/conservation.jpg" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 alt="Wildlife conservation efforts in action"
+                                 loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Conservation Projects</h3>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    New
+                                </span>
+                            </div>
+                            <p class="mt-3 text-gray-600 text-sm sm:text-base">Contribute to wildlife protection and environmental sustainability through hands-on conservation projects in breathtaking natural settings.</p>
+                            <div class="mt-4 pt-3 border-t border-gray-100">
+                                <a href="/conservation" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base transition-colors group-hover:underline">
+                                    Get Involved
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <title>Learn about Conservation</title>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Community Engagement & Skill Sharing -->
-            <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/community-engagement.jpg" class="w-full h-64 object-cover rounded-3xl">
-                <h3 class="text-2xl font-bold mt-4 text-black">Community Engagement & Skill Sharing</h3>
-                <p class="text-gray-700">Empower local communities by sharing knowledge and skills.</p>
-                <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                    <li>Work on educational and entrepreneurship initiatives.</li>
-                    <li>Partner with local organizations for community development.</li>
-                    <li>Foster cross-cultural understanding through skills exchange.</li>
-                </ul>
+            <!-- More Impact Button -->
+            <div class="mt-10 text-center">
+                <a href="/impact" class="inline-flex items-center px-6 sm:px-8 py-3 bg-black text-white text-sm sm:text-base font-medium rounded-full shadow-lg hover:bg-gray-800 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    Explore All Impact Programs
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <title>View All Impact Programs</title>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
             </div>
-
-            <!-- Environmental Conservation -->
-            <div class="bg-gray-100 p-6 rounded-3xl shadow-lg">
-                <img src="/static/images/environment-conservation.jpg" class="w-full h-64 object-cover rounded-3xl">
-                <h3 class="text-2xl font-bold mt-4 text-black">Environmental Conservation</h3>
-                <p class="text-gray-700">Support eco-tourism and conservation efforts for a sustainable future.</p>
-                <ul class="list-disc list-inside text-sm text-gray-600 mt-2">
-                    <li>Participate in wildlife and nature conservation projects.</li>
-                    <li>Engage in reforestation and sustainable tourism initiatives.</li>
-                    <li>Contribute to reducing carbon footprints while traveling.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- More Impact Button -->
-        <div class="mt-6 flex justify-center">
-            <a href="/impact" class="px-6 py-3 bg-black text-white rounded-full shadow-md hover:bg-gray-900 transition">
-                More Impact
-            </a>
-        </div>
-        </div>
     </section>
-
-
-
-
 
     <!-- Featured Rentals Section -->
     <section id="rentals" class="py-16 text-center bg-white px-10 mt-10">
@@ -522,8 +658,6 @@
             </a>
         </div>
     </section>
-    </section>
-
 
     <!-- Curio Shop Section -->
     <section id="CurioShop" class="py-16 text-center bg-gray-100 px-4 md:px-10 mt-10">
@@ -615,7 +749,6 @@
         </div>
     </section>
 
-
     <!-- Reviews Section -->
     <section id="Reviews" class="py-16 text-center bg-white px-4 md:px-10">
         <h2 class="text-4xl font-bold">Traveler Reviews</h2>
@@ -660,7 +793,6 @@
         </div>
 
     </section>
-
 
     <!-- Why Plan Your Trip and Event With Us -->
     <section id="plan" class="py-16 text-center bg-gray-100 px-10">
@@ -761,15 +893,77 @@
     </section>
 
     <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mainNav = document.getElementById('main-nav');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                const isExpanded = mobileMenu.classList.toggle('hidden');
+                if (isExpanded) {
+                    mainNav.classList.remove('h-screen', 'bg-gray-900/95', 'backdrop-blur-sm');
+                    mainNav.classList.add('bg-transparent');
+                } else {
+                    mainNav.classList.add('h-screen', 'bg-gray-900/95', 'backdrop-blur-sm');
+                    mainNav.classList.remove('bg-transparent');
+                }
+            });
+
+            // Close menu when clicking on a link
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mainNav.classList.remove('h-screen', 'bg-gray-900/95', 'backdrop-blur-sm');
+                    mainNav.classList.add('bg-transparent');
+                });
+            });
+
+            // Handle window resize
+            function handleResize() {
+                if (window.innerWidth >= 768) {
+                    mobileMenu.classList.add('hidden');
+                    mainNav.classList.remove('h-screen', 'bg-gray-900/95', 'backdrop-blur-sm');
+                    mainNav.classList.add('bg-transparent');
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+        });
+
+        // Review form toggle
         function toggleReviewForm() {
-            const form = document.getElementById('review-form');
-            if (form.classList.contains('hidden')) {
-                form.classList.remove('hidden');
-                form.classList.add('animate-fade-in-down'); // Optional animation class
-            } else {
-                form.classList.add('hidden');
+            const form = document.getElementById('reviewForm');
+            if (form) {
+                if (form.classList.contains('hidden')) {
+                    form.classList.remove('hidden');
+                    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    form.classList.add('hidden');
+                }
             }
         }
+
+        // Improve touch experience for form elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add touch feedback for buttons and links
+            const touchElements = document.querySelectorAll('button, a, [role="button"]');
+            touchElements.forEach(el => {
+                el.style.webkitTapHighlightColor = 'rgba(255, 255, 255, 0.1)';
+                el.style.tapHighlightColor = 'rgba(255, 255, 255, 0.1)';
+            });
+
+            // Prevent zoom on input focus on mobile
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    // Add a class to the body when an input is focused
+                    document.body.style.zoom = '100%';
+                    document.body.style.touchAction = 'manipulation';
+                    document.body.style.textSizeAdjust = '100%';
+                });
+            });
+        });
     </script>
 
 

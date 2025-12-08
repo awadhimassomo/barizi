@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-2">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+        <div>
+            <h2 class="text-2xl font-bold">Exhibitor Bookings for {{ event.title }}</h2>
+            <p class="text-sm text-gray-500 mt-1">See who has booked which spaces and manage their status and payments.</p>
+        </div>
+        <div>
+            <a href="{% url 'manage-exhibitor-spaces' event.id %}" class="inline-flex items-center px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-orange-600 transition">
+                Add / Manage Spaces
+            </a>
+        </div>
+    </div>
+
+    {% if bookings %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Space</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid (TZS)</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for booking in bookings %}
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium text-gray-900">
+                            {{ booking.business_name }}
+                            <div class="text-xs text-gray-500">{{ booking.exhibitor_name }}</div>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ booking.space.name }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ booking.phone_number }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ booking.paid_amount }}</td>
+                        <td class="px-4 py-3 text-sm">
+                            {% if booking.status == 'confirmed' %}
+                                <span class="inline-flex px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium">Confirmed</span>
+                            {% elif booking.status == 'cancelled' %}
+                                <span class="inline-flex px-2.5 py-0.5 rounded-full bg-red-100 text-red-800 text-xs font-medium">Cancelled</span>
+                            {% else %}
+                                <span class="inline-flex px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-800 text-xs font-medium">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-sm text-right">
+                            <form method="post" class="inline-flex items-center gap-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                <input type="number" step="0.01" name="paid_amount" value="{{ booking.paid_amount }}" class="border rounded-lg px-2 py-1 w-24 text-xs" placeholder="Paid">
+                                <button type="submit" name="action" value="confirm" class="px-2 py-1 rounded-lg bg-green-600 text-white text-xs hover:bg-green-700">Confirm</button>
+                                <button type="submit" name="action" value="cancel" class="px-2 py-1 rounded-lg bg-red-600 text-white text-xs hover:bg-red-700">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center text-gray-600 text-sm">
+            No bookings yet for this event. Share the exhibitor link so vendors can start booking spaces.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

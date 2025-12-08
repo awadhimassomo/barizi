@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from .models import TourPackage, Itinerary, Review, Vendor
+from .models import TourPackage, Itinerary, Review, Vendor, Event, ExhibitorSpace, ExhibitorBooking
 from django.contrib.auth import get_user_model
-from .models import Event
 
 User = get_user_model()
 
@@ -52,7 +51,7 @@ class EventSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'description',
-            'location',
+            # location is represented using venue/city fields
             'is_online',
             'online_link',
             'date',
@@ -64,8 +63,8 @@ class EventSerializer(serializers.ModelSerializer):
             'slug',
             'latitude',
             'longitude',
+            'has_exhibitors',
             'extra_details',  # For storing marathon-specific or festival-specific data
-            'created_at'
         ]
 
     # Validate online events to ensure an online_link is provided
@@ -73,3 +72,34 @@ class EventSerializer(serializers.ModelSerializer):
         if data.get('is_online') and not data.get('online_link'):
             raise serializers.ValidationError("Online events must include an online link.")
         return data
+
+
+class ExhibitorSpaceSerializer(serializers.ModelSerializer):
+    available_slots = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ExhibitorSpace
+        fields = ['id', 'event', 'name', 'price', 'total_slots', 'description', 'available_slots']
+
+    def get_available_slots(self, obj):
+        # Count all non-cancelled bookings against this space
+        used = obj.bookings.exclude(status='cancelled').count()
+        return max(obj.total_slots - used, 0)
+
+
+class ExhibitorBookingSerializer(serializers.ModelSerializer):
+    space = serializers.PrimaryKeyRelatedField(queryset=ExhibitorSpace.objects.all())
+
+    class Meta:
+        model = ExhibitorBooking
+        fields = [
+            'id',
+            'space',
+            'exhibitor_name',
+            'business_name',
+            'phone_number',
+            'status',
+            'paid_amount',
+            'created_at',
+        ]
+
