@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-8">
+        <a href="{% url 'uploaded_packages_list' %}" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Edit Package</h1>
+            <p class="text-gray-600 mt-1">{{ package.title }}</p>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Basic Info Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-info-circle text-primary mr-2"></i>Basic Information
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Package Title *</label>
+                    <input type="text" name="title" id="title" value="{{ package.title }}" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div>
+                    <label for="package_type" class="block text-sm font-medium text-gray-700 mb-2">Package Type *</label>
+                    <select name="package_type" id="package_type" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        {% for value, label in package_types %}
+                        <option value="{{ value }}" {% if package.package_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="duration_days" class="block text-sm font-medium text-gray-700 mb-2">Duration (days) *</label>
+                    <input type="number" name="duration_days" id="duration_days" value="{{ package.duration_days }}" min="1" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label for="destinations" class="block text-sm font-medium text-gray-700 mb-2">Destinations</label>
+                    <input type="text" name="destinations" id="destinations" value="{{ package.destinations }}"
+                           placeholder="e.g., Serengeti, Ngorongoro, Zanzibar"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea name="description" id="description" rows="4"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary resize-none">{{ package.description }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-dollar-sign text-primary mr-2"></i>Pricing & Group Size
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="price_per_person" class="block text-sm font-medium text-gray-700 mb-2">Price per Person (USD)</label>
+                    <input type="number" name="price_per_person" id="price_per_person" step="0.01" min="0"
+                           value="{{ package.price_per_person|default:'' }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div>
+                    <label for="min_group_size" class="block text-sm font-medium text-gray-700 mb-2">Min Group Size</label>
+                    <input type="number" name="min_group_size" id="min_group_size" value="{{ package.min_group_size }}" min="1"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div>
+                    <label for="max_group_size" class="block text-sm font-medium text-gray-700 mb-2">Max Group Size</label>
+                    <input type="number" name="max_group_size" id="max_group_size" value="{{ package.max_group_size }}" min="1"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Files -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-paperclip text-primary mr-2"></i>Current Files
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Current PDF -->
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Current PDF</p>
+                    {% if package.pdf_itinerary %}
+                    <a href="{{ package.pdf_itinerary.url }}" target="_blank" class="flex items-center text-red-600 hover:text-red-700">
+                        <i class="fas fa-file-pdf text-2xl mr-2"></i>
+                        <span class="text-sm">View PDF</span>
+                    </a>
+                    {% else %}
+                    <p class="text-gray-400 text-sm">No PDF uploaded</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Current Cover Image -->
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Current Cover Image</p>
+                    {% if package.cover_image %}
+                    <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" class="h-24 object-cover rounded">
+                    {% else %}
+                    <p class="text-gray-400 text-sm">No image uploaded</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Upload New Files -->
+            <h3 class="text-sm font-medium text-gray-700 mb-3">Replace Files (optional)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">New PDF</label>
+                    <input type="file" name="pdf_itinerary" accept=".pdf"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">New Cover Image</label>
+                    <input type="file" name="cover_image" accept="image/*"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Link -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-share-alt text-primary mr-2"></i>Share Link
+            </h2>
+            <div class="flex items-center gap-3">
+                <input type="text" readonly value="{{ request.scheme }}://{{ request.get_host }}/p/{{ package.share_token }}/"
+                       class="flex-1 px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-sm" id="share-link">
+                <button type="button" onclick="copyLink()" class="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select name="status" id="status"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        {% for value, label in package_statuses %}
+                        <option value="{{ value }}" {% if package.status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="flex items-center">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" name="is_public" {% if package.is_public %}checked{% endif %}
+                               class="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-3">
+                            <span class="text-sm font-medium text-gray-700">Show in Marketplace</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="flex justify-between">
+            <a href="{% url 'delete_uploaded_package' package.pk %}" class="px-6 py-3 text-red-600 hover:text-red-700">
+                <i class="fas fa-trash mr-2"></i>Delete Package
+            </a>
+            <div class="flex gap-4">
+                <a href="{% url 'uploaded_packages_list' %}" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+function copyLink() {
+    const input = document.getElementById('share-link');
+    input.select();
+    document.execCommand('copy');
+    alert('Link copied to clipboard!');
+}
+</script>
+{% endblock %}

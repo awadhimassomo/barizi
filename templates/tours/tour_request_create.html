@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 p-4 md:p-6">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">New Tour Request</h1>
+            <p class="text-gray-600 mt-1">Enter client requirements to generate an AI-powered itinerary</p>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Client Information -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-user text-primary"></i>
+                    Client Information
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Client Name *</label>
+                        <input type="text" name="client_name" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                        <input type="email" name="client_email" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="john@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                        <input type="tel" name="client_phone"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="+255 XXX XXX XXX">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour Type & Group -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-star text-primary"></i>
+                    Tour Type & Group
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tour Type *</label>
+                        <select name="tour_type" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            {% for value, label in tour_types %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Group Type *</label>
+                        <select name="group_type" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            {% for value, label in group_types %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Number of Adults *</label>
+                        <input type="number" name="num_adults" min="1" value="2" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Number of Children</label>
+                        <input type="number" name="num_children" min="0" value="0"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget & Dates -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-dollar-sign text-primary"></i>
+                    Budget & Dates
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Budget per Person (USD) *</label>
+                        <input type="number" name="budget_per_person" min="100" step="50" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="2000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Markup (%) *</label>
+                        <div class="relative">
+                            <input type="number" name="markup_percentage" min="0" max="100" step="0.5" value="15" required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8"
+                                   placeholder="15">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">%</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Your profit margin on this tour</p>
+                    </div>
+                    <div class="flex items-center pt-6">
+                        <input type="checkbox" name="budget_flexible" id="budget_flexible"
+                               class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                        <label for="budget_flexible" class="ml-2 text-sm text-gray-700">Budget is flexible</label>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Start Date *</label>
+                        <input type="date" name="start_date" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">End Date *</label>
+                        <input type="date" name="end_date" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" name="dates_flexible" id="dates_flexible"
+                               class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                        <label for="dates_flexible" class="ml-2 text-sm text-gray-700">Dates are flexible</label>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fas fa-clock text-primary mr-1"></i>
+                            Preferred Start Time *
+                        </label>
+                        <select name="preferred_start_time" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option value="early_morning">Early Morning (5:00 - 7:00 AM) - Best for game drives</option>
+                            <option value="morning" selected>Morning (7:00 - 9:00 AM) - Standard start</option>
+                            <option value="mid_morning">Mid-Morning (9:00 - 11:00 AM) - Relaxed start</option>
+                            <option value="flexible">Flexible / No Preference</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">What time does the guest prefer to start activities each day?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest Location & Travel -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-plane-arrival text-primary"></i>
+                    Guest Location & Travel
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">How is guest arriving? *</label>
+                        <select name="arrival_method" required title="Arrival method"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option value="flight_international">International Flight</option>
+                            <option value="flight_domestic">Domestic Flight</option>
+                            <option value="already_in_country">Already in Tanzania</option>
+                            <option value="land_border">Land Border Crossing</option>
+                            <option value="ferry">Ferry/Sea</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Arrival Location</label>
+                        <input type="text" name="arrival_location"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="e.g., JRO - Kilimanjaro Airport, DAR - Julius Nyerere">
+                        <p class="text-xs text-gray-500 mt-1">Airport or city where guest arrives</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Current Location (if already in TZ)</label>
+                        <input type="text" name="current_location"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="e.g., Arusha, Stone Town, Dar es Salaam">
+                        <p class="text-xs text-gray-500 mt-1">Where guest is now (if already in Tanzania)</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pickup Location *</label>
+                        <input type="text" name="pickup_location" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="e.g., Kilimanjaro Airport, Arusha Hotel">
+                        <p class="text-xs text-gray-500 mt-1">Where to pick up the guest</p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Departure Location</label>
+                        <input type="text" name="departure_location"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="e.g., ZNZ - Zanzibar Airport, JRO - Kilimanjaro">
+                        <p class="text-xs text-gray-500 mt-1">Where guest departs from at end of tour (leave empty if same as arrival)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Destinations -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-primary"></i>
+                    Preferred Destinations
+                </h2>
+                <p class="text-sm text-gray-500 mb-4">Select destinations the client wants to visit (leave empty for AI to suggest)</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {% for dest in destinations %}
+                    <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" name="preferred_destinations" value="{{ dest.id }}"
+                               class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-2 text-sm">{{ dest.name }}</span>
+                    </label>
+                    {% empty %}
+                    <p class="col-span-3 text-gray-500 text-sm">No destinations available. Add destinations in admin panel.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Special Requests -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fas fa-clipboard-list text-primary"></i>
+                    Special Requests & Requirements
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                        <textarea name="special_requests" rows="3"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  placeholder="e.g., Must visit Zanzibar beaches, interested in wildlife photography, honeymoon trip..."></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Dietary Requirements</label>
+                            <input type="text" name="dietary_requirements"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                   placeholder="e.g., Vegetarian, Halal, No seafood">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mobility Requirements</label>
+                            <input type="text" name="mobility_requirements"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                   placeholder="e.g., Wheelchair accessible, Limited walking">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="flex justify-end gap-4">
+                <a href="{% url 'tour_request_list' %}" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 bg-black text-white rounded-lg hover:bg-primary transition-colors flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Create Request
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

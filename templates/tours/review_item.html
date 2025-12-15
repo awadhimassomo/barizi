@@ -1,0 +1,162 @@
+{% extends "tours/base_admin.html" %}
+
+{% block page_title %}Review: {{ processed.title|truncatechars:40 }}{% endblock %}
+{% block page_subtitle %}Compare raw data with AI extraction{% endblock %}
+
+{% block header_actions %}
+<a href="{% url 'scraping_sources' %}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+    <i class="fas fa-redo"></i>
+    <span>Re-scrape</span>
+</a>
+<span class="px-3 py-1 rounded-full text-sm font-medium
+    {% if processed.status == 'approved' %}bg-green-100 text-green-700
+    {% elif processed.status == 'rejected' %}bg-red-100 text-red-700
+    {% elif processed.status == 'needs_revision' %}bg-yellow-100 text-yellow-700
+    {% else %}bg-blue-100 text-blue-700{% endif %}">
+    {{ processed.get_status_display }}
+</span>
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+        {% csrf_token %}
+        
+        <!-- Split Screen Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- LEFT: Raw Text (Read-only) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gray-800 text-white px-6 py-4">
+                    <h2 class="font-semibold flex items-center">
+                        <i class="fas fa-file-alt mr-2"></i>Original Raw Text
+                    </h2>
+                    <p class="text-sm text-gray-400 mt-1">Source: {{ raw.get_source_type_display }}</p>
+                </div>
+                <div class="p-6 max-h-[70vh] overflow-y-auto">
+                    <pre class="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-4 rounded-lg">{{ raw.raw_text }}</pre>
+                </div>
+            </div>
+
+            <!-- RIGHT: AI Extracted Data (Editable) -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-primary text-white px-6 py-4">
+                    <h2 class="font-semibold flex items-center">
+                        <i class="fas fa-robot mr-2"></i>AI Extracted Data
+                    </h2>
+                    <p class="text-sm text-white/70 mt-1">Model: {{ processed.gpt_model_used }} • {{ processed.gpt_processing_time|floatformat:1 }}s</p>
+                </div>
+                <div class="p-6 max-h-[70vh] overflow-y-auto space-y-4">
+                    <!-- Derived User Questions -->
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-purple-700 mb-3">
+                            <i class="fas fa-comments text-purple-500 mr-1"></i>Derived User Questions (3 variations)
+                        </label>
+                        <div class="space-y-2">
+                            <input type="text" name="question_1" value="{{ question_1 }}" placeholder="Question 1: Casual inquiry" class="w-full px-3 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                            <input type="text" name="question_2" value="{{ question_2 }}" placeholder="Question 2: Value question" class="w-full px-3 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                            <input type="text" name="question_3" value="{{ question_3 }}" placeholder="Question 3: Constraint-based" class="w-full px-3 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                        <input type="text" name="title" value="{{ processed.title }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <!-- Metadata Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                            <input type="text" name="destination_country" value="{{ processed.destination_country }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration (days)</label>
+                            <input type="number" name="duration_days" value="{{ processed.duration_days }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Budget Level</label>
+                            <select name="budget_level" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                <option value="">--Select--</option>
+                                {% for value, label in budget_levels %}
+                                <option value="{{ value }}" {% if processed.budget_level == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Trip Type</label>
+                            <select name="trip_type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                                <option value="">--Select--</option>
+                                {% for value, label in trip_types %}
+                                <option value="{{ value }}" {% if processed.trip_type == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Group Type</label>
+                            <input type="text" name="group_type" value="{{ processed.group_type }}" placeholder="e.g., Couple, Family" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Est. Price (USD)</label>
+                            <input type="number" name="estimated_price_usd" value="{{ processed.estimated_price_usd }}" step="0.01" placeholder="e.g., 3500" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+
+                    <!-- Destinations -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Destinations</label>
+                        <div class="flex flex-wrap gap-2">
+                            {% for dest in processed.destinations %}
+                            <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">{{ dest }}</span>
+                            {% empty %}
+                            <span class="text-gray-400 text-sm">No destinations extracted</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Itinerary Preview -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Day-by-Day Itinerary</label>
+                        <div class="border border-gray-200 rounded-lg p-4 bg-gray-50 max-h-48 overflow-y-auto">
+                            {% if processed.itinerary_json.days %}
+                            {% for day in processed.itinerary_json.days %}
+                            <div class="mb-3 last:mb-0">
+                                <p class="font-medium text-gray-900">Day {{ day.day }}: {{ day.title }}</p>
+                                <p class="text-sm text-gray-600">{{ day.description|truncatechars:100 }}</p>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p class="text-gray-400 text-sm">No itinerary data</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Reviewer Notes -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Reviewer Notes</label>
+                        <textarea name="notes" rows="2" placeholder="Add any notes about corrections made..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm">{{ processed.reviewer_notes }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 flex justify-between items-center bg-white rounded-xl shadow-lg p-4">
+            <div class="flex gap-2">
+                <button type="submit" name="action" value="reject" class="px-5 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Reject
+                </button>
+                <button type="submit" name="action" value="needs_revision" class="px-5 py-2 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors">
+                    <i class="fas fa-exclamation mr-2"></i>Needs Revision
+                </button>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" name="action" value="save" class="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
+                <button type="submit" name="action" value="approve" class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-check mr-2"></i>Approve
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -41,6 +41,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.197','127.0.0.1','localhost']
 
+# Authentication settings
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 # Application definition
 

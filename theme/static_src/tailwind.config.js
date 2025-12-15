@@ -42,7 +42,18 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: '#CC5500',      // Burnt Orange - Accent
+                secondary: '#000000',    // Black - Text, Dark backgrounds
+                sidebarBg: '#000000',    // Black
+                sidebarText: '#FFFFFF',  // White
+                sidebarHover: '#CC5500', // Burnt Orange
+                black: '#000000',
+                white: '#FFFFFF',
+                burnt: '#CC5500',
+            }
+        },
     },
     plugins: [
         /**

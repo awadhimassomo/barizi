@@ -1,0 +1,486 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 p-4 md:p-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+            <div>
+                <a href="{% url 'tour_request_list' %}" class="text-gray-500 hover:text-gray-700 mb-2 inline-flex items-center gap-1">
+                    <i class="fas fa-arrow-left"></i> Back to Requests
+                </a>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ tour_request.client_name }}</h1>
+                <p class="text-gray-600">{{ tour_request.get_tour_type_display }} | {{ tour_request.duration_days }} Days</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
+                    {% if tour_request.status == 'draft' %}bg-gray-100 text-gray-800
+                    {% elif tour_request.status == 'pending' %}bg-yellow-100 text-yellow-800
+                    {% elif tour_request.status == 'itinerary_generated' %}bg-blue-100 text-blue-800
+                    {% elif tour_request.status == 'confirmed' %}bg-green-100 text-green-800
+                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                    {{ tour_request.get_status_display }}
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Column: Request Details -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Client Info -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Client Information</h2>
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-sm text-gray-500">Email</span>
+                            <p class="font-medium">{{ tour_request.client_email }}</p>
+                        </div>
+                        {% if tour_request.client_phone %}
+                        <div>
+                            <span class="text-sm text-gray-500">Phone</span>
+                            <p class="font-medium">{{ tour_request.client_phone }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Tour Details -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Tour Details</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Tour Type</span>
+                            <span class="font-medium">{{ tour_request.get_tour_type_display }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Group Type</span>
+                            <span class="font-medium">{{ tour_request.get_group_type_display }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Travelers</span>
+                            <span class="font-medium">{{ tour_request.num_adults }}A + {{ tour_request.num_children }}C</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Dates</span>
+                            <span class="font-medium">{{ tour_request.start_date|date:"M d" }} - {{ tour_request.end_date|date:"M d" }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Duration</span>
+                            <span class="font-medium">{{ tour_request.duration_days }} days</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Start Time</span>
+                            <span class="font-medium">{{ tour_request.get_preferred_start_time_display }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Budget/Person</span>
+                            <span class="font-medium text-green-600">${{ tour_request.budget_per_person|floatformat:0 }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Your Markup</span>
+                            <span class="font-medium text-green-600">{{ tour_request.markup_percentage|floatformat:1 }}%</span>
+                        </div>
+                        {% if tour_request.total_estimated_cost %}
+                        <div class="flex justify-between border-t pt-3">
+                            <span class="text-gray-900 font-semibold">Total Estimate</span>
+                            <span class="font-bold text-primary">${{ tour_request.total_estimated_cost|floatformat:0 }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Guest Location & Travel -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-plane-arrival text-primary"></i>
+                        Travel Info
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Arrival</span>
+                            <span class="font-medium">{{ tour_request.get_arrival_method_display }}</span>
+                        </div>
+                        {% if tour_request.arrival_location %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Arrival Location</span>
+                            <span class="font-medium">{{ tour_request.arrival_location }}</span>
+                        </div>
+                        {% endif %}
+                        {% if tour_request.current_location %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Currently At</span>
+                            <span class="font-medium">{{ tour_request.current_location }}</span>
+                        </div>
+                        {% endif %}
+                        {% if tour_request.pickup_location %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Pickup</span>
+                            <span class="font-medium text-primary">{{ tour_request.pickup_location }}</span>
+                        </div>
+                        {% endif %}
+                        {% if tour_request.departure_location %}
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Departure</span>
+                            <span class="font-medium text-primary">{{ tour_request.departure_location }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Special Requests -->
+                {% if tour_request.special_requests or tour_request.dietary_requirements or tour_request.mobility_requirements %}
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Special Requirements</h2>
+                    {% if tour_request.special_requests %}
+                    <div class="mb-3">
+                        <span class="text-sm text-gray-500">Special Requests</span>
+                        <p class="text-gray-900">{{ tour_request.special_requests }}</p>
+                    </div>
+                    {% endif %}
+                    {% if tour_request.dietary_requirements %}
+                    <div class="mb-3">
+                        <span class="text-sm text-gray-500">Dietary</span>
+                        <p class="text-gray-900">{{ tour_request.dietary_requirements }}</p>
+                    </div>
+                    {% endif %}
+                    {% if tour_request.mobility_requirements %}
+                    <div>
+                        <span class="text-sm text-gray-500">Mobility</span>
+                        <p class="text-gray-900">{{ tour_request.mobility_requirements }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Actions</h2>
+                    
+                    <!-- Generate Itinerary -->
+                    <form method="POST" class="mb-4" id="generateForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="generate_itinerary">
+                        <button type="submit" id="generateBtn" class="w-full px-4 py-3 bg-primary text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+                            <i class="fas fa-magic" id="generateIcon"></i>
+                            <span id="generateText">{% if itinerary %}Regenerate AI Itinerary{% else %}Generate AI Itinerary{% endif %}</span>
+                        </button>
+                    </form>
+
+                    <!-- Update Status -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_status">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Update Status</label>
+                        <select name="status" title="Update request status"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary mb-2">
+                            {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if tour_request.status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+                            Update Status
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Generated Itinerary -->
+            <div class="lg:col-span-2">
+                {% if itinerary %}
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900">Generated Itinerary</h2>
+                        <div class="flex items-center gap-2">
+                            <!-- Edit Itinerary -->
+                            <a href="{% url 'tour_request_edit_itinerary' tour_request.pk %}" 
+                               class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </a>
+                            <!-- Download Client PDF -->
+                            <a href="{% url 'tour_request_pdf' tour_request.pk %}" 
+                               class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i>
+                                Client PDF
+                            </a>
+                            <!-- Download Operator PDF (with profit info) -->
+                            <a href="{% url 'tour_request_pdf_type' tour_request.pk 'operator' %}" 
+                               class="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                Operator PDF
+                            </a>
+                            <!-- Print -->
+                            <button onclick="window.print()" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+                                <i class="fas fa-print"></i>
+                                Print
+                            </button>
+                        </div>
+                    </div>
+
+                    {% if itinerary.summary %}
+                    <div class="bg-primary/10 border border-primary/20 rounded-lg p-4 mb-6">
+                        <p class="text-gray-800">{{ itinerary.summary }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Day by Day -->
+                    <div class="space-y-6">
+                        {% for day in itinerary.days %}
+                        <div class="border border-gray-200 rounded-xl overflow-hidden">
+                            <div class="bg-black text-white px-6 py-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-primary font-bold">Day {{ day.day }}</span>
+                                        <h3 class="text-lg font-semibold">{{ day.title }}</h3>
+                                    </div>
+                                    <span class="text-sm text-gray-300">{{ day.destination }}</span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <!-- Activities -->
+                                {% if day.activities %}
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-hiking text-primary"></i> Activities
+                                    </h4>
+                                    <div class="space-y-2">
+                                        {% for activity in day.activities %}
+                                        <div class="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-2">
+                                            <div>
+                                                <span class="font-medium">{{ activity.name }}</span>
+                                                {% if activity.time %}<span class="text-sm text-gray-500 ml-2">{{ activity.time }}</span>{% endif %}
+                                            </div>
+                                            {% if activity.cost_per_person %}
+                                            <span class="text-green-600 font-medium">${{ activity.cost_per_person }}/pp</span>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Accommodation -->
+                                {% if day.accommodation %}
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-bed text-primary"></i> Accommodation
+                                    </h4>
+                                    <div class="bg-gray-50 rounded-lg px-4 py-3">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="font-medium">{{ day.accommodation.name }}</span>
+                                                {% if day.accommodation.meal_plan %}
+                                                <span class="text-sm text-gray-500 ml-2">({{ day.accommodation.meal_plan }})</span>
+                                                {% endif %}
+                                            </div>
+                                            {% if day.accommodation.cost_per_person %}
+                                            <span class="text-green-600 font-medium">${{ day.accommodation.cost_per_person }}/pp</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Transport -->
+                                {% if day.transport %}
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-car text-primary"></i> Transport
+                                    </h4>
+                                    <p class="text-gray-600">{{ day.transport.description }}</p>
+                                    {% if day.transport.distance_km %}
+                                    <span class="text-sm text-gray-500">~{{ day.transport.distance_km }} km</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                <!-- Meals -->
+                                {% if day.meals_included %}
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-utensils text-primary"></i> Meals Included
+                                    </h4>
+                                    <div class="flex gap-2">
+                                        {% for meal in day.meals_included %}
+                                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">{{ meal }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Tips -->
+                                {% if day.tips %}
+                                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                                    <p class="text-sm text-yellow-800"><i class="fas fa-lightbulb mr-2"></i>{{ day.tips }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Cost Breakdown -->
+                    {% if itinerary.cost_breakdown %}
+                    <div class="mt-8 bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Cost Breakdown</h3>
+                        <div class="space-y-2">
+                            {% if itinerary.cost_breakdown.accommodation_total %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Accommodation</span>
+                                <span class="font-medium">${{ itinerary.cost_breakdown.accommodation_total|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            {% if itinerary.cost_breakdown.activities_total %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Activities</span>
+                                <span class="font-medium">${{ itinerary.cost_breakdown.activities_total|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            {% if itinerary.cost_breakdown.transport_total %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Transport</span>
+                                <span class="font-medium">${{ itinerary.cost_breakdown.transport_total|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            {% if itinerary.cost_breakdown.park_fees_total %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Park Fees</span>
+                                <span class="font-medium">${{ itinerary.cost_breakdown.park_fees_total|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Subtotal -->
+                            {% if itinerary.cost_breakdown.subtotal_per_person %}
+                            <div class="flex justify-between border-t pt-2 mt-2">
+                                <span class="text-gray-700">Subtotal (per person)</span>
+                                <span class="font-medium">${{ itinerary.cost_breakdown.subtotal_per_person|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Operator Markup -->
+                            {% if itinerary.cost_breakdown.operator_markup_per_person %}
+                            <div class="flex justify-between bg-green-50 -mx-6 px-6 py-2">
+                                <span class="text-green-700">
+                                    <i class="fas fa-percentage mr-1"></i>
+                                    Operator Markup ({{ itinerary.cost_breakdown.operator_markup_percentage }}%)
+                                </span>
+                                <span class="font-medium text-green-700">+${{ itinerary.cost_breakdown.operator_markup_per_person|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Final Totals -->
+                            <div class="flex justify-between border-t pt-3 mt-2">
+                                <span class="font-semibold text-gray-900">Final Price (per person)</span>
+                                <span class="font-bold text-primary">${{ itinerary.cost_breakdown.total_per_person|floatformat:0 }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold text-gray-900">Final Price (all travelers)</span>
+                                <span class="font-bold text-xl text-primary">${{ itinerary.cost_breakdown.total_all_travelers|floatformat:0 }}</span>
+                            </div>
+                            
+                            <!-- Operator Profit Summary -->
+                            {% if itinerary.cost_breakdown.operator_markup_total %}
+                            <div class="bg-green-100 border border-green-200 rounded-lg p-3 mt-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-800 font-medium">
+                                        <i class="fas fa-coins mr-2"></i>Your Profit
+                                    </span>
+                                    <span class="text-green-800 font-bold text-lg">${{ itinerary.cost_breakdown.operator_markup_total|floatformat:0 }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- What to Pack -->
+                    {% if itinerary.what_to_pack %}
+                    <div class="mt-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3">What to Pack</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for item in itinerary.what_to_pack %}
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{{ item }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <!-- No Itinerary Yet -->
+                <div class="bg-white rounded-xl shadow-sm p-12 text-center" id="emptyState">
+                    <i class="fas fa-route text-6xl text-gray-300 mb-4" id="emptyIcon"></i>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2" id="emptyTitle">No Itinerary Generated Yet</h3>
+                    <p class="text-gray-500 mb-6" id="emptyDesc">Click "Generate AI Itinerary" to create a personalized tour plan based on the client's requirements and your real pricing data.</p>
+                    <form method="POST" id="generateFormEmpty">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="generate_itinerary">
+                        <button type="submit" id="generateBtnEmpty" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full hover:bg-orange-600 transition-colors">
+                            <i class="fas fa-magic" id="generateIconEmpty"></i>
+                            <span id="generateTextEmpty">Generate AI Itinerary</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle both generate forms
+    const forms = ['generateForm', 'generateFormEmpty'];
+    
+    forms.forEach(formId => {
+        const form = document.getElementById(formId);
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Show loading state on both buttons
+                showLoadingState();
+            });
+        }
+    });
+    
+    function showLoadingState() {
+        // Update sidebar button
+        const btn = document.getElementById('generateBtn');
+        const icon = document.getElementById('generateIcon');
+        const text = document.getElementById('generateText');
+        
+        if (btn) {
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            icon.className = 'fas fa-spinner fa-spin';
+            text.textContent = 'Generating...';
+        }
+        
+        // Update empty state button
+        const btnEmpty = document.getElementById('generateBtnEmpty');
+        const iconEmpty = document.getElementById('generateIconEmpty');
+        const textEmpty = document.getElementById('generateTextEmpty');
+        
+        if (btnEmpty) {
+            btnEmpty.disabled = true;
+            btnEmpty.classList.add('opacity-75', 'cursor-not-allowed');
+            iconEmpty.className = 'fas fa-spinner fa-spin';
+            textEmpty.textContent = 'Generating...';
+        }
+        
+        // Update empty state content
+        const emptyIcon = document.getElementById('emptyIcon');
+        const emptyTitle = document.getElementById('emptyTitle');
+        const emptyDesc = document.getElementById('emptyDesc');
+        
+        if (emptyIcon) {
+            emptyIcon.className = 'fas fa-cog fa-spin text-6xl text-primary mb-4';
+        }
+        if (emptyTitle) {
+            emptyTitle.textContent = 'Generating Your Itinerary...';
+        }
+        if (emptyDesc) {
+            emptyDesc.innerHTML = '<span class="text-primary font-medium">AI is crafting a personalized tour plan.</span><br>This may take 10-20 seconds. Please wait...';
+        }
+    }
+});
+</script>
+{% endblock %}

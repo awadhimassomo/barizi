@@ -1,0 +1,76 @@
+{% extends "tours/base_admin.html" %}
+
+{% block page_title %}Export Training Data{% endblock %}
+{% block page_subtitle %}Preview and download approved training data{% endblock %}
+
+{% block header_actions %}
+{% if total_count > 0 %}
+<a href="{% url 'export_training_data' %}?action=download" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
+    <i class="fas fa-download"></i>
+    <span>Download JSONL ({{ total_count }} records)</span>
+</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Stats -->
+<div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-lg font-semibold text-gray-900">Export Summary</h3>
+            <p class="text-gray-600">Only <span class="font-medium text-green-600">approved</span> records will be exported</p>
+        </div>
+        <div class="text-right">
+            <p class="text-3xl font-bold text-primary">{{ total_count }}</p>
+            <p class="text-sm text-gray-500">Approved Records</p>
+        </div>
+    </div>
+</div>
+
+{% if total_count == 0 %}
+<div class="bg-white rounded-xl shadow-lg p-12 text-center">
+    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-100 flex items-center justify-center">
+        <i class="fas fa-exclamation-triangle text-2xl text-yellow-600"></i>
+    </div>
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">No Approved Records</h3>
+    <p class="text-gray-600 mb-4">You need to approve some itineraries before exporting.</p>
+    <a href="{% url 'review_list' %}" class="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
+        Go to Human Review
+    </a>
+</div>
+{% else %}
+<!-- Preview Section -->
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Preview (showing {{ preview_count }} of {{ total_count }})</h2>
+        <span class="text-sm text-gray-500">Full data will be in the download</span>
+    </div>
+    
+    <div class="divide-y divide-gray-200">
+        {% for item in preview_data %}
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-medium text-gray-900">{{ item.title }}</h3>
+                <a href="{% url 'review_item' item.id %}" class="text-sm text-blue-600 hover:underline">
+                    View Full Record
+                </a>
+            </div>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="text-sm text-green-400 font-mono whitespace-pre-wrap">{{ item.json_preview }}{% if item.json_preview|length >= 2000 %}...
+
+[Truncated - full data in download]{% endif %}</pre>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Download Button -->
+<div class="mt-6 flex justify-center">
+    <a href="{% url 'export_training_data' %}?action=download" class="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-3 text-lg">
+        <i class="fas fa-download"></i>
+        <span>Download Complete JSONL File</span>
+    </a>
+</div>
+{% endif %}
+{% endblock %}

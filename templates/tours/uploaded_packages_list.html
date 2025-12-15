@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">My Packages</h1>
+            <p class="text-gray-600 mt-1">Upload and manage your ready-made tour packages</p>
+        </div>
+        <a href="{% url 'upload_package' %}" class="inline-flex items-center px-5 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="fas fa-plus mr-2"></i>Upload Package
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
+        <form method="GET" class="flex flex-wrap gap-4 items-end">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    <option value="">All Status</option>
+                    {% for value, label in package_statuses %}
+                    <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                <select name="type" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                    <option value="">All Types</option>
+                    {% for value, label in package_types %}
+                    <option value="{{ value }}" {% if current_type == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                <i class="fas fa-filter mr-2"></i>Filter
+            </button>
+            {% if current_status or current_type %}
+            <a href="{% url 'uploaded_packages_list' %}" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Clear Filters
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Packages Grid -->
+    {% if packages %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for package in packages %}
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <!-- Cover Image -->
+            <div class="relative h-48">
+                {% if package.cover_image %}
+                <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" class="w-full h-full object-cover">
+                {% else %}
+                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-gray-400"></i>
+                </div>
+                {% endif %}
+                <!-- Status Badge -->
+                <div class="absolute top-3 right-3">
+                    <span class="px-3 py-1 rounded-full text-xs font-medium
+                        {% if package.status == 'active' %}bg-green-100 text-green-700
+                        {% elif package.status == 'draft' %}bg-yellow-100 text-yellow-700
+                        {% else %}bg-gray-100 text-gray-700{% endif %}">
+                        {{ package.get_status_display }}
+                    </span>
+                </div>
+                <!-- PDF Indicator -->
+                {% if package.pdf_itinerary %}
+                <div class="absolute top-3 left-3">
+                    <span class="px-2 py-1 bg-red-500 text-white rounded text-xs">
+                        <i class="fas fa-file-pdf mr-1"></i>PDF
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Content -->
+            <div class="p-5">
+                <div class="flex items-start justify-between mb-2">
+                    <h3 class="text-lg font-bold text-gray-900 line-clamp-1">{{ package.title }}</h3>
+                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{{ package.get_package_type_display }}</span>
+                </div>
+                
+                <p class="text-sm text-gray-600 line-clamp-2 mb-3">{{ package.description|default:"No description" }}</p>
+                
+                <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                    <span><i class="fas fa-clock mr-1"></i>{{ package.duration_days }} days</span>
+                    {% if package.price_per_person %}
+                    <span><i class="fas fa-dollar-sign mr-1"></i>${{ package.price_per_person }}/pp</span>
+                    {% endif %}
+                </div>
+
+                <!-- Destinations -->
+                {% if package.destinations %}
+                <div class="flex flex-wrap gap-1 mb-4">
+                    {% for dest in package.destinations.split|slice:":3" %}
+                    <span class="px-2 py-1 bg-primary/10 text-primary text-xs rounded">{{ dest|trim }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div class="flex gap-2">
+                        <a href="{% url 'edit_uploaded_package' package.pk %}" class="p-2 text-gray-600 hover:text-primary transition-colors" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        {% if package.pdf_itinerary %}
+                        <a href="{{ package.pdf_itinerary.url }}" target="_blank" class="p-2 text-gray-600 hover:text-red-500 transition-colors" title="View PDF">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                        {% endif %}
+                        <button onclick="copyShareLink('{{ package.share_token }}')" class="p-2 text-gray-600 hover:text-green-500 transition-colors" title="Copy Share Link">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                    <a href="{% url 'delete_uploaded_package' package.pk %}" class="p-2 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+            <i class="fas fa-box-open text-3xl text-primary"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No Packages Yet</h3>
+        <p class="text-gray-600 mb-6">Upload your ready-made tour packages with PDF itineraries and images</p>
+        <a href="{% url 'upload_package' %}" class="inline-flex items-center px-5 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <i class="fas fa-plus mr-2"></i>Upload Your First Package
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function copyShareLink(token) {
+    const url = window.location.origin + '/p/' + token + '/';
+    navigator.clipboard.writeText(url).then(() => {
+        alert('Share link copied to clipboard!');
+    });
+}
+</script>
+{% endblock %}

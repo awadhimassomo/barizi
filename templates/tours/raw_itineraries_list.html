@@ -1,0 +1,90 @@
+{% extends "tours/base_admin.html" %}
+
+{% block page_title %}Raw Data{% endblock %}
+{% block page_subtitle %}Scraped and uploaded data awaiting GPT processing{% endblock %}
+
+{% block content %}
+<!-- Filters -->
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
+        <form method="GET" class="flex gap-4 items-center">
+            <a href="{% url 'raw_itineraries_list' %}" class="px-4 py-2 rounded-lg {% if not current_status %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">All</a>
+            <a href="?status=pending" class="px-4 py-2 rounded-lg {% if current_status == 'pending' %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">Pending</a>
+            <a href="?status=processed" class="px-4 py-2 rounded-lg {% if current_status == 'processed' %}bg-primary text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">Processed</a>
+        </form>
+    </div>
+
+    <!-- Items List -->
+    {% if items %}
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title/URL</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Source</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Text Length</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Scraped</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for item in items %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-gray-900">{{ item.page_title|default:"-"|truncatechars:35 }}</div>
+                        <div class="text-sm text-gray-500">{{ item.source_url|truncatechars:40 }}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">{{ item.get_source_type_display }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">{{ item.raw_text|length|floatformat:0 }} chars</td>
+                    <td class="px-6 py-4">
+                        {% if item.is_processed %}
+                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">Processed</span>
+                        {% elif item.processing_error %}
+                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs" title="{{ item.processing_error }}">Error</span>
+                        {% else %}
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-gray-600 text-sm">{{ item.scraped_at|timesince }} ago</td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            {% if item.is_processed %}
+                            <a href="{% url 'review_item' item.processed.pk %}" class="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200">
+                                View
+                            </a>
+                            {% else %}
+                            <form method="POST" action="{% url 'process_single_raw' item.pk %}" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" class="px-3 py-1 bg-purple-100 text-purple-700 rounded text-sm hover:bg-purple-200">
+                                    Process
+                                </button>
+                            </form>
+                            {% endif %}
+                            <form method="POST" action="{% url 'delete_raw_itinerary' item.pk %}" class="inline" onsubmit="return confirm('Delete this itinerary?');">
+                                {% csrf_token %}
+                                <button type="submit" class="px-3 py-1 bg-red-100 text-red-700 rounded text-sm hover:bg-red-200">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+            <i class="fas fa-file-alt text-2xl text-gray-400"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">No raw data</h3>
+        <p class="text-gray-600 mb-4">Add URLs to scrape or upload PDF packages</p>
+        <a href="{% url 'scraping_sources' %}" class="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
+            Add Scraping Sources
+        </a>
+    </div>
+    {% endif %}
+{% endblock %}

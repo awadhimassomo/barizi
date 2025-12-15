@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 p-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Match Services for Your Event</h1>
+                    <p class="text-gray-600 mt-1">{{ event.title }} • {{ event.date }}</p>
+                </div>
+                <a href="{% url 'edit-event-agenda' event.id %}" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition">
+                    Continue to Agenda
+                </a>
+            </div>
+        </div>
+
+        <!-- Service Category Buttons -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">What do you need for your event?</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                {% for service_type, service_label in service_types %}
+                <button onclick="showMatches('{{ service_type }}')" 
+                        class="service-btn flex flex-col items-center p-4 border-2 rounded-xl hover:border-primary hover:bg-orange-50 transition cursor-pointer {% if selected_type == service_type %}border-primary bg-orange-50{% else %}border-gray-200{% endif %}"
+                        data-type="{{ service_type }}">
+                    <span class="text-2xl mb-2">
+                        {% if service_type == 'mc' %}🎤
+                        {% elif service_type == 'venue' %}🏛️
+                        {% elif service_type == 'catering' %}🍽️
+                        {% elif service_type == 'photography' %}📷
+                        {% elif service_type == 'videography' %}🎬
+                        {% elif service_type == 'sound' %}🔊
+                        {% elif service_type == 'lighting' %}💡
+                        {% elif service_type == 'decoration' %}🎨
+                        {% elif service_type == 'security' %}🛡️
+                        {% elif service_type == 'printing' %}🖨️
+                        {% elif service_type == 'transport' %}🚐
+                        {% elif service_type == 'entertainment' %}🎭
+                        {% endif %}
+                    </span>
+                    <span class="text-sm font-medium text-gray-700">{{ service_label }}</span>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Matches Section -->
+        <div id="matchesSection" class="hidden">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">
+                        <span id="matchTitle">Select a service above</span>
+                    </h2>
+                    <span class="text-sm text-gray-500" id="matchCount"></span>
+                </div>
+                <div id="matchResults" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- Selected Services -->
+        {% if matched_services %}
+        <div class="bg-white rounded-xl shadow-md p-6 mt-6">
+            <h2 class="text-lg font-semibold mb-4">Your Selected Services</h2>
+            <div class="space-y-3">
+                {% for match in matched_services %}
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xl">
+                            {% if match.provider.service_type == 'mc' %}🎤
+                            {% elif match.provider.service_type == 'catering' %}🍽️
+                            {% elif match.provider.service_type == 'photography' %}📷
+                            {% else %}✓{% endif %}
+                        </span>
+                        <div>
+                            <p class="font-medium">{{ match.provider.name }}</p>
+                            <p class="text-sm text-gray-500">{{ match.provider.get_service_type_display }}</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 text-sm rounded-full {% if match.status == 'confirmed' %}bg-green-100 text-green-700{% elif match.status == 'pending' %}bg-yellow-100 text-yellow-700{% else %}bg-gray-100 text-gray-700{% endif %}">
+                        {{ match.get_status_display }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Continue Button -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'edit-event-agenda' event.id %}" class="inline-block bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-orange-600 transition">
+                Continue to Event Agenda
+            </a>
+            <p class="text-sm text-gray-500 mt-2">You can always come back to match more services later</p>
+        </div>
+    </div>
+</div>
+
+<script>
+const serviceLabels = {
+    'mc': 'MC / Host', 'venue': 'Venue / Space', 'catering': 'Food & Catering',
+    'photography': 'Photography', 'videography': 'Videography', 'sound': 'Sound & Audio',
+    'lighting': 'Lighting', 'decoration': 'Decoration', 'security': 'Security',
+    'printing': 'Printing & Publishing', 'transport': 'Transport', 'entertainment': 'Entertainment'
+};
+const serviceIcons = {
+    'mc': '🎤', 'venue': '🏛️', 'catering': '🍽️', 'photography': '📷', 'videography': '🎬',
+    'sound': '🔊', 'lighting': '💡', 'decoration': '🎨', 'security': '🛡️',
+    'printing': '🖨️', 'transport': '🚐', 'entertainment': '🎭'
+};
+
+function showMatches(serviceType) {
+    // Update button states instantly
+    document.querySelectorAll('.service-btn').forEach(btn => {
+        btn.classList.remove('border-primary', 'bg-orange-50');
+        btn.classList.add('border-gray-200');
+    });
+    const activeBtn = document.querySelector(`[data-type="${serviceType}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('border-primary', 'bg-orange-50');
+        activeBtn.classList.remove('border-gray-200');
+    }
+
+    // Show section with loading state
+    const section = document.getElementById('matchesSection');
+    const results = document.getElementById('matchResults');
+    section.classList.remove('hidden');
+    document.getElementById('matchTitle').textContent = `Top matches for ${serviceLabels[serviceType] || serviceType}`;
+    results.innerHTML = '<div class="col-span-3 text-center py-8"><div class="animate-spin inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div><p class="text-gray-500 mt-2">Finding providers...</p></div>';
+
+    // Fetch matches via AJAX
+    fetch(`?service=${serviceType}&ajax=1`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('matchCount').textContent = `${data.providers.length} provider(s) found`;
+            if (data.providers.length === 0) {
+                results.innerHTML = '<div class="col-span-3 text-center py-8"><p class="text-gray-500">No providers found for this service yet.</p><p class="text-sm text-gray-400 mt-1">Check back later or contact us to find one.</p></div>';
+                return;
+            }
+            results.innerHTML = data.providers.map(p => `
+                <div class="border rounded-xl p-4 hover:shadow-lg transition">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center text-2xl">${serviceIcons[p.service_type] || '👤'}</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-900">${p.name}</h3>
+                            <div class="flex items-center text-sm text-yellow-500 mt-1">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))}<span class="text-gray-500 ml-1">(${p.reviews_count})</span></div>
+                            ${p.price_range_min ? `<p class="text-sm text-gray-600 mt-1">TZS ${p.price_range_min.toLocaleString()}${p.price_range_max ? ' - ' + p.price_range_max.toLocaleString() : ''}</p>` : ''}
+                        </div>
+                    </div>
+                    ${p.description ? `<p class="text-sm text-gray-600 mt-3 line-clamp-2">${p.description}</p>` : ''}
+                    <div class="mt-4">
+                        <button onclick="selectProvider(${p.id})" class="w-full bg-primary text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-orange-600 transition">Select</button>
+                    </div>
+                </div>
+            `).join('');
+        })
+        .catch(() => { results.innerHTML = '<div class="col-span-3 text-center py-8 text-red-500">Error loading providers</div>'; });
+}
+
+function selectProvider(providerId) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.innerHTML = `{% csrf_token %}<input name="provider_id" value="${providerId}"><input name="action" value="match">`;
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+{% endblock %}

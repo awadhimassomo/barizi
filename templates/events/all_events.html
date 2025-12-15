@@ -30,12 +30,12 @@
             </p>
             <div class="relative max-w-xl mx-auto">
                 <input type="text"
+                       id="event-search"
                        placeholder="Search events, artists, or venues..."
                        class="w-full px-6 py-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-300">
-                <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center">
-                    <span>Search</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <button id="search-btn" title="Search events" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-black font-bold py-2 px-6 rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
             </div>
@@ -44,17 +44,41 @@
 
     <!-- Events Grid -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <h2 class="text-2xl font-bold text-gray-900">Upcoming Events</h2>
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap gap-2" id="category-filters">
+                <button data-category="all" class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-black text-white transition-all">
+                    All
+                </button>
+                <button data-category="festival" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Festival
+                </button>
+                <button data-category="concert" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Concert
+                </button>
+                <button data-category="conference" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Conference
+                </button>
+                <button data-category="workshop" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Workshop
+                </button>
+                <button data-category="sports" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Sports
+                </button>
+                <button data-category="nightlife" class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-gray-200 text-gray-700 hover:bg-black hover:text-white transition-all">
+                    Nightlife
+                </button>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="events-grid">
             {% if events %}
                 {% for event in events %}
-                    <div class="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <div class="relative aspect-square overflow-hidden">
+                    <div class="event-card group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1" data-category="{{ event.category }}" data-title="{{ event.title|lower }}" data-venue="{{ event.venue|default:event.city|lower }}">
+                        <div class="relative h-48 overflow-hidden">
                             {% if event.image %}
-                                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
                             {% else %}
                                 <div class="w-full h-full bg-gray-900 flex items-center justify-center text-white text-lg font-semibold">
                                     {{ event.title|truncatechars:30 }}
@@ -100,7 +124,7 @@
                                 </div>
                             </div>
                             <a href="{% url 'event_detail' event.slug %}" class="block mt-4 w-full">
-                                <button class="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <button class="w-full py-3 bg-black text-white font-bold rounded-full hover:bg-primary transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                                     <span>View Details</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -124,39 +148,101 @@
 {{ block.super }}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // Country typer animation
     var el = document.getElementById('country-typer');
-    if (!el) return;
+    if (el) {
+        var countries = ['Tanzania', 'Kenya', 'Uganda', 'Rwanda', 'Ghana', 'Nigeria', 'South Africa', 'Ethiopia'];
+        var i = 0;
+        var j = 0;
+        var typing = true;
+        var pause = 0;
 
-    var countries = ['Tanzania', 'Kenya', 'Uganda', 'Rwanda', 'Ghana', 'Nigeria', 'South Africa', 'Ethiopia'];
-    var i = 0;
-    var j = 0;
-    var typing = true;
-    var pause = 0;
-
-    setInterval(function () {
-        var name = countries[i];
-
-        if (pause > 0) {
-            pause--;
-        } else if (typing) {
-            if (j < name.length) {
-                j++;
+        setInterval(function () {
+            var name = countries[i];
+            if (pause > 0) {
+                pause--;
+            } else if (typing) {
+                if (j < name.length) {
+                    j++;
+                } else {
+                    typing = false;
+                    pause = 6;
+                }
             } else {
-                typing = false;
-                pause = 6;
+                if (j > 0) {
+                    j--;
+                } else {
+                    typing = true;
+                    i = (i + 1) % countries.length;
+                    pause = 3;
+                }
             }
-        } else {
-            if (j > 0) {
-                j--;
-            } else {
-                typing = true;
-                i = (i + 1) % countries.length;
-                pause = 3;
-            }
-        }
+            el.textContent = name.slice(0, j);
+        }, 200);
+    }
 
-        el.textContent = name.slice(0, j);
-    }, 200);
+    // Filter and Search functionality
+    const searchInput = document.getElementById('event-search');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const eventCards = document.querySelectorAll('.event-card');
+    let activeCategory = 'all';
+
+    // Filter events function
+    function filterEvents() {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        
+        eventCards.forEach(card => {
+            const category = card.dataset.category;
+            const title = card.dataset.title || '';
+            const venue = card.dataset.venue || '';
+            
+            const matchesCategory = activeCategory === 'all' || category === activeCategory;
+            const matchesSearch = searchTerm === '' || 
+                                  title.includes(searchTerm) || 
+                                  venue.includes(searchTerm);
+            
+            if (matchesCategory && matchesSearch) {
+                card.style.display = '';
+                card.style.opacity = '1';
+                card.style.transform = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Category filter buttons
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active state
+            filterButtons.forEach(b => {
+                b.classList.remove('bg-black', 'text-white');
+                b.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            this.classList.remove('bg-gray-200', 'text-gray-700');
+            this.classList.add('bg-black', 'text-white');
+            
+            activeCategory = this.dataset.category;
+            filterEvents();
+        });
+    });
+
+    // Search input - live search as user types
+    if (searchInput) {
+        searchInput.addEventListener('input', filterEvents);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                filterEvents();
+            }
+        });
+    }
+
+    // Search button click
+    const searchBtn = document.getElementById('search-btn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', filterEvents);
+    }
 });
 </script>
 {% endblock %}

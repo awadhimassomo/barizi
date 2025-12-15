@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ package.title }} - Tour Package</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#CC5500',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-black text-white py-6">
+        <div class="max-w-5xl mx-auto px-6">
+            <h1 class="text-3xl font-bold">{{ package.title }}</h1>
+            <div class="flex items-center gap-4 mt-2 text-gray-300">
+                <span><i class="fas fa-clock mr-1"></i>{{ package.duration_days }} Days</span>
+                <span><i class="fas fa-tag mr-1"></i>{{ package.get_package_type_display }}</span>
+                {% if package.price_per_person %}
+                <span><i class="fas fa-dollar-sign mr-1"></i>${{ package.price_per_person }} per person</span>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-8">
+        <!-- Image Gallery -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {% if package.cover_image %}
+            <div class="md:col-span-2">
+                <img src="{{ package.cover_image.url }}" alt="{{ package.title }}" 
+                     class="w-full h-96 object-cover rounded-xl shadow-lg">
+            </div>
+            {% endif %}
+            {% if package.image_2 %}
+            <img src="{{ package.image_2.url }}" alt="{{ package.title }}" class="w-full h-48 object-cover rounded-lg">
+            {% endif %}
+            {% if package.image_3 %}
+            <img src="{{ package.image_3.url }}" alt="{{ package.title }}" class="w-full h-48 object-cover rounded-lg">
+            {% endif %}
+        </div>
+
+        <!-- Info Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-calendar-alt text-primary text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900">{{ package.duration_days }}</p>
+                <p class="text-gray-600">Days</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-users text-primary text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900">{{ package.min_group_size }} - {{ package.max_group_size }}</p>
+                <p class="text-gray-600">Group Size</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-dollar-sign text-primary text-xl"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900">{% if package.price_per_person %}${{ package.price_per_person }}{% else %}Contact Us{% endif %}</p>
+                <p class="text-gray-600">Per Person</p>
+            </div>
+        </div>
+
+        <!-- Destinations -->
+        {% if package.destinations %}
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-map-marker-alt text-primary mr-2"></i>Destinations
+            </h2>
+            <div class="flex flex-wrap gap-2">
+                {% for dest in package.destinations.split %}
+                <span class="px-4 py-2 bg-primary/10 text-primary rounded-full font-medium">{{ dest|trim }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Description -->
+        {% if package.description %}
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-info-circle text-primary mr-2"></i>About This Package
+            </h2>
+            <p class="text-gray-700 leading-relaxed">{{ package.description }}</p>
+        </div>
+        {% endif %}
+
+        <!-- PDF Download -->
+        {% if package.pdf_itinerary %}
+        <div class="bg-gradient-to-r from-primary to-orange-600 rounded-xl shadow-lg p-8 text-center text-white">
+            <i class="fas fa-file-pdf text-5xl mb-4"></i>
+            <h2 class="text-2xl font-bold mb-2">Detailed Itinerary Available</h2>
+            <p class="mb-6 opacity-90">Download the full PDF itinerary with day-by-day details</p>
+            <a href="{{ package.pdf_itinerary.url }}" target="_blank"
+               class="inline-flex items-center px-6 py-3 bg-white text-primary rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                <i class="fas fa-download mr-2"></i>Download PDF Itinerary
+            </a>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-8 mt-12">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <p class="text-gray-400">Interested in this package? Contact us to book!</p>
+        </div>
+    </footer>
+</body>
+</html>
